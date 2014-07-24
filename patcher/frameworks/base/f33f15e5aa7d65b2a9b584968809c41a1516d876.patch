@@ -1,0 +1,48 @@
+From f33f15e5aa7d65b2a9b584968809c41a1516d876 Mon Sep 17 00:00:00 2001
+From: DHOMD <DHO@dho.im>
+Date: Sun, 11 May 2014 18:19:45 -0400
+Subject: [PATCH] Mira Cast Part 5/7
+
+This series of patches is from s107ken's xda post here:
+http://forum.xda-developers.com/galaxy-nexus/development/rom-maguro-meets-kitkat-miracast-t2540694/post52562917
+The Tuna community, states it is working as intented
+
+Mira4u is the work of kensuke
+https://github.com/kensuke/How-to-Miracast-on-AOSP
+
+Parts:
+Build 1/7 (This will likely be abandoned in favor of building from device and/or vendor)
+Device/samy/tuna 2/7
+external/wpa 3/7
+fw_av 4/7
+fw_base  5/7
+fw_native 6/7
+packages/apps/mira4u 7/7
+
+WTF is Miracast?... basically, the open source chromecast
+http://en.wikipedia.org/wiki/Miracast
+
+Please note,... the way this was patches has a great possibly to step on other commits, I will attempt to ensure this does not happen
+
+Change-Id: I90a4ab9a4fe3350bde044eac00bc7f887f41f233
+---
+ services/java/com/android/server/display/WifiDisplayController.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/services/java/com/android/server/display/WifiDisplayController.java b/services/java/com/android/server/display/WifiDisplayController.java
+index dbb59b2..2a0e0d8 100644
+--- a/services/java/com/android/server/display/WifiDisplayController.java
++++ b/services/java/com/android/server/display/WifiDisplayController.java
+@@ -284,7 +284,8 @@ private void updateWfdEnableState() {
+ 
+                 WifiP2pWfdInfo wfdInfo = new WifiP2pWfdInfo();
+                 wfdInfo.setWfdEnabled(true);
+-                wfdInfo.setDeviceType(WifiP2pWfdInfo.WFD_SOURCE);
++                //wfdInfo.setDeviceType(WifiP2pWfdInfo.WFD_SOURCE);
++                wfdInfo.setDeviceType(WifiP2pWfdInfo.SOURCE_OR_PRIMARY_SINK);
+                 wfdInfo.setSessionAvailable(true);
+                 wfdInfo.setControlPort(DEFAULT_CONTROL_PORT);
+                 wfdInfo.setMaxThroughput(MAX_THROUGHPUT);
+-- 
+1.9.3
+

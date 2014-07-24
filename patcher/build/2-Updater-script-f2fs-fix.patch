@@ -1,0 +1,29 @@
+From 2048cd067d4bf3187f6f0e7fad0ef34f7cc7069a Mon Sep 17 00:00:00 2001
+From: artas182x <artas182x@gmail.com>
+Date: Thu, 24 Jul 2014 16:24:03 +0200
+Subject: [PATCH] Updater-script f2fs fix
+
+Change-Id: I7602f25de2c5f292d54a37006556cbbd0cd40c1c
+---
+ tools/releasetools/edify_generator.py | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/tools/releasetools/edify_generator.py b/tools/releasetools/edify_generator.py
+index de82455..892ed46 100644
+--- a/tools/releasetools/edify_generator.py
++++ b/tools/releasetools/edify_generator.py
+@@ -207,9 +207,8 @@ class EdifyGenerator(object):
+     fstab = self.info.get("fstab", None)
+     if fstab:
+       p = fstab[partition]
+-      self.script.append('format("%s", "%s", "%s", "%s", "%s");' %
+-                         (p.fs_type, common.PARTITION_TYPES[p.fs_type],
+-                          p.device, p.length, p.mount_point))
++      self.script.append('run_program("/sbin/mkfs.f2fs", "%s");' %
++                         (p.device))
+ 
+   def DeleteFiles(self, file_list):
+     """Delete all files in file_list."""
+-- 
+1.9.1
+

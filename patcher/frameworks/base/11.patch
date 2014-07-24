@@ -1,0 +1,2084 @@
+From 9656e1d80a92f7a87243195ea00c3054e05a7802 Mon Sep 17 00:00:00 2001
+From: Lars Greiss <kufikugel@googlemail.com>
+Date: Sat, 16 Nov 2013 22:07:56 +0100
+Subject: [PATCH] fb: correct seeker fb style for 4.4
+
+based on this commit https://github.com/SlimRoms/frameworks_base/commit/a845169c128c19825a69a0ebdf2e4d366fdd67ad
+
+the idea was good but bad done. A middle in the night action lol.
+Problem is that holo light themed app cannot handle the white seekbar of course
+So add the complete seekbar into the Holo.Light switch to support both cases
+
+Holo: white seekbar
+Holo.Light: drak gray seekbar
+
+Change-Id: I82252d0cb30cd4af47d624a37ccc904cb7e9c1e6
+---
+ .../scrubber_control_disabled_holo.png             | Bin 460 -> 0 bytes
+ .../scrubber_control_disabled_holo_dark.png        | Bin 0 -> 460 bytes
+ .../scrubber_control_disabled_holo_light.png       | Bin 0 -> 555 bytes
+ .../scrubber_control_focused_holo.png              | Bin 682 -> 0 bytes
+ .../scrubber_control_focused_holo_dark.png         | Bin 0 -> 682 bytes
+ .../scrubber_control_focused_holo_light.png        | Bin 0 -> 807 bytes
+ .../drawable-hdpi/scrubber_control_normal_holo.png | Bin 819 -> 0 bytes
+ .../scrubber_control_normal_holo_dark.png          | Bin 0 -> 819 bytes
+ .../scrubber_control_normal_holo_light.png         | Bin 0 -> 998 bytes
+ .../scrubber_control_pressed_holo.png              | Bin 932 -> 0 bytes
+ .../scrubber_control_pressed_holo_dark.png         | Bin 0 -> 932 bytes
+ .../scrubber_control_pressed_holo_light.png        | Bin 0 -> 1033 bytes
+ .../res/drawable-hdpi/scrubber_primary_holo.9.png  | Bin 109 -> 0 bytes
+ .../drawable-hdpi/scrubber_primary_holo_dark.9.png | Bin 0 -> 109 bytes
+ .../scrubber_primary_holo_light.9.png              | Bin 0 -> 109 bytes
+ .../drawable-hdpi/scrubber_secondary_holo.9.png    | Bin 110 -> 0 bytes
+ .../scrubber_secondary_holo_dark.9.png             | Bin 0 -> 110 bytes
+ .../scrubber_secondary_holo_light.9.png            | Bin 0 -> 112 bytes
+ .../scrubber_control_disabled_holo.png             | Bin 331 -> 0 bytes
+ .../scrubber_control_disabled_holo_dark.png        | Bin 0 -> 331 bytes
+ .../scrubber_control_disabled_holo_light.png       | Bin 0 -> 393 bytes
+ .../scrubber_control_focused_holo.png              | Bin 433 -> 0 bytes
+ .../scrubber_control_focused_holo_dark.png         | Bin 0 -> 433 bytes
+ .../scrubber_control_focused_holo_light.png        | Bin 0 -> 525 bytes
+ .../drawable-mdpi/scrubber_control_normal_holo.png | Bin 491 -> 0 bytes
+ .../scrubber_control_normal_holo_dark.png          | Bin 0 -> 491 bytes
+ .../scrubber_control_normal_holo_light.png         | Bin 0 -> 604 bytes
+ .../scrubber_control_pressed_holo.png              | Bin 703 -> 0 bytes
+ .../scrubber_control_pressed_holo_dark.png         | Bin 0 -> 703 bytes
+ .../scrubber_control_pressed_holo_light.png        | Bin 0 -> 814 bytes
+ .../res/drawable-mdpi/scrubber_primary_holo.9.png  | Bin 106 -> 0 bytes
+ .../drawable-mdpi/scrubber_primary_holo_dark.9.png | Bin 0 -> 106 bytes
+ .../scrubber_primary_holo_light.9.png              | Bin 0 -> 107 bytes
+ .../drawable-mdpi/scrubber_secondary_holo.9.png    | Bin 107 -> 0 bytes
+ .../scrubber_secondary_holo_dark.9.png             | Bin 0 -> 107 bytes
+ .../scrubber_secondary_holo_light.9.png            | Bin 0 -> 110 bytes
+ .../scrubber_control_disabled_holo.png             | Bin 660 -> 0 bytes
+ .../scrubber_control_disabled_holo_dark.png        | Bin 0 -> 660 bytes
+ .../scrubber_control_disabled_holo_light.png       | Bin 0 -> 783 bytes
+ .../scrubber_control_focused_holo.png              | Bin 1049 -> 0 bytes
+ .../scrubber_control_focused_holo_dark.png         | Bin 0 -> 1049 bytes
+ .../scrubber_control_focused_holo_light.png        | Bin 0 -> 1260 bytes
+ .../scrubber_control_normal_holo.png               | Bin 1321 -> 0 bytes
+ .../scrubber_control_normal_holo_dark.png          | Bin 0 -> 1321 bytes
+ .../scrubber_control_normal_holo_light.png         | Bin 0 -> 1555 bytes
+ .../scrubber_control_pressed_holo.png              | Bin 1397 -> 0 bytes
+ .../scrubber_control_pressed_holo_dark.png         | Bin 0 -> 1397 bytes
+ .../scrubber_control_pressed_holo_light.png        | Bin 0 -> 1605 bytes
+ .../res/drawable-xhdpi/scrubber_primary_holo.9.png | Bin 119 -> 0 bytes
+ .../scrubber_primary_holo_dark.9.png               | Bin 0 -> 119 bytes
+ .../scrubber_primary_holo_light.9.png              | Bin 0 -> 123 bytes
+ .../drawable-xhdpi/scrubber_secondary_holo.9.png   | Bin 120 -> 0 bytes
+ .../scrubber_secondary_holo_dark.9.png             | Bin 0 -> 120 bytes
+ .../scrubber_secondary_holo_light.9.png            | Bin 0 -> 123 bytes
+ .../scrubber_control_disabled_holo.png             | Bin 927 -> 0 bytes
+ .../scrubber_control_disabled_holo_dark.png        | Bin 0 -> 927 bytes
+ .../scrubber_control_disabled_holo_light.png       | Bin 0 -> 1068 bytes
+ .../scrubber_control_focused_holo.png              | Bin 1674 -> 0 bytes
+ .../scrubber_control_focused_holo_dark.png         | Bin 0 -> 1674 bytes
+ .../scrubber_control_focused_holo_light.png        | Bin 0 -> 1924 bytes
+ .../scrubber_control_normal_holo.png               | Bin 2315 -> 0 bytes
+ .../scrubber_control_normal_holo_dark.png          | Bin 0 -> 2315 bytes
+ .../scrubber_control_normal_holo_light.png         | Bin 0 -> 2631 bytes
+ .../scrubber_control_pressed_holo.png              | Bin 1722 -> 0 bytes
+ .../scrubber_control_pressed_holo_dark.png         | Bin 0 -> 1722 bytes
+ .../scrubber_control_pressed_holo_light.png        | Bin 0 -> 1847 bytes
+ .../drawable-xxhdpi/scrubber_primary_holo.9.png    | Bin 123 -> 0 bytes
+ .../scrubber_primary_holo_dark.9.png               | Bin 0 -> 123 bytes
+ .../scrubber_primary_holo_light.9.png              | Bin 0 -> 127 bytes
+ .../drawable-xxhdpi/scrubber_secondary_holo.9.png  | Bin 127 -> 0 bytes
+ .../scrubber_secondary_holo_dark.9.png             | Bin 0 -> 127 bytes
+ .../scrubber_secondary_holo_light.9.png            | Bin 0 -> 129 bytes
+ .../drawable/scrubber_control_selector_holo.xml    |  22 ---------------------
+ .../scrubber_control_selector_holo_dark.xml        |  22 +++++++++++++++++++++
+ .../scrubber_control_selector_holo_light.xml       |  22 +++++++++++++++++++++
+ .../scrubber_progress_horizontal_holo_dark.xml     |   4 ++--
+ .../scrubber_progress_horizontal_holo_light.xml    |   4 ++--
+ core/res/res/values/styles.xml                     |   3 ++-
+ core/res/res/values/symbols.xml                    |   4 ++--
+ .../res/drawable/status_bar_toggle_button.xml      |   2 +-
+ .../android/systemui/settings/ToggleSlider.java    |   4 ++--
+ 81 files changed, 55 insertions(+), 32 deletions(-)
+ delete mode 100644 core/res/res/drawable-hdpi/scrubber_control_disabled_holo.png
+ create mode 100644 core/res/res/drawable-hdpi/scrubber_control_disabled_holo_dark.png
+ create mode 100644 core/res/res/drawable-hdpi/scrubber_control_disabled_holo_light.png
+ delete mode 100644 core/res/res/drawable-hdpi/scrubber_control_focused_holo.png
+ create mode 100644 core/res/res/drawable-hdpi/scrubber_control_focused_holo_dark.png
+ create mode 100644 core/res/res/drawable-hdpi/scrubber_control_focused_holo_light.png
+ delete mode 100644 core/res/res/drawable-hdpi/scrubber_control_normal_holo.png
+ create mode 100644 core/res/res/drawable-hdpi/scrubber_control_normal_holo_dark.png
+ create mode 100644 core/res/res/drawable-hdpi/scrubber_control_normal_holo_light.png
+ delete mode 100644 core/res/res/drawable-hdpi/scrubber_control_pressed_holo.png
+ create mode 100644 core/res/res/drawable-hdpi/scrubber_control_pressed_holo_dark.png
+ create mode 100644 core/res/res/drawable-hdpi/scrubber_control_pressed_holo_light.png
+ delete mode 100644 core/res/res/drawable-hdpi/scrubber_primary_holo.9.png
+ create mode 100644 core/res/res/drawable-hdpi/scrubber_primary_holo_dark.9.png
+ create mode 100644 core/res/res/drawable-hdpi/scrubber_primary_holo_light.9.png
+ delete mode 100644 core/res/res/drawable-hdpi/scrubber_secondary_holo.9.png
+ create mode 100644 core/res/res/drawable-hdpi/scrubber_secondary_holo_dark.9.png
+ create mode 100644 core/res/res/drawable-hdpi/scrubber_secondary_holo_light.9.png
+ delete mode 100644 core/res/res/drawable-mdpi/scrubber_control_disabled_holo.png
+ create mode 100644 core/res/res/drawable-mdpi/scrubber_control_disabled_holo_dark.png
+ create mode 100644 core/res/res/drawable-mdpi/scrubber_control_disabled_holo_light.png
+ delete mode 100644 core/res/res/drawable-mdpi/scrubber_control_focused_holo.png
+ create mode 100644 core/res/res/drawable-mdpi/scrubber_control_focused_holo_dark.png
+ create mode 100644 core/res/res/drawable-mdpi/scrubber_control_focused_holo_light.png
+ delete mode 100644 core/res/res/drawable-mdpi/scrubber_control_normal_holo.png
+ create mode 100644 core/res/res/drawable-mdpi/scrubber_control_normal_holo_dark.png
+ create mode 100644 core/res/res/drawable-mdpi/scrubber_control_normal_holo_light.png
+ delete mode 100644 core/res/res/drawable-mdpi/scrubber_control_pressed_holo.png
+ create mode 100644 core/res/res/drawable-mdpi/scrubber_control_pressed_holo_dark.png
+ create mode 100644 core/res/res/drawable-mdpi/scrubber_control_pressed_holo_light.png
+ delete mode 100644 core/res/res/drawable-mdpi/scrubber_primary_holo.9.png
+ create mode 100644 core/res/res/drawable-mdpi/scrubber_primary_holo_dark.9.png
+ create mode 100644 core/res/res/drawable-mdpi/scrubber_primary_holo_light.9.png
+ delete mode 100644 core/res/res/drawable-mdpi/scrubber_secondary_holo.9.png
+ create mode 100644 core/res/res/drawable-mdpi/scrubber_secondary_holo_dark.9.png
+ create mode 100644 core/res/res/drawable-mdpi/scrubber_secondary_holo_light.9.png
+ delete mode 100644 core/res/res/drawable-xhdpi/scrubber_control_disabled_holo.png
+ create mode 100644 core/res/res/drawable-xhdpi/scrubber_control_disabled_holo_dark.png
+ create mode 100644 core/res/res/drawable-xhdpi/scrubber_control_disabled_holo_light.png
+ delete mode 100644 core/res/res/drawable-xhdpi/scrubber_control_focused_holo.png
+ create mode 100644 core/res/res/drawable-xhdpi/scrubber_control_focused_holo_dark.png
+ create mode 100644 core/res/res/drawable-xhdpi/scrubber_control_focused_holo_light.png
+ delete mode 100644 core/res/res/drawable-xhdpi/scrubber_control_normal_holo.png
+ create mode 100644 core/res/res/drawable-xhdpi/scrubber_control_normal_holo_dark.png
+ create mode 100644 core/res/res/drawable-xhdpi/scrubber_control_normal_holo_light.png
+ delete mode 100644 core/res/res/drawable-xhdpi/scrubber_control_pressed_holo.png
+ create mode 100644 core/res/res/drawable-xhdpi/scrubber_control_pressed_holo_dark.png
+ create mode 100644 core/res/res/drawable-xhdpi/scrubber_control_pressed_holo_light.png
+ delete mode 100644 core/res/res/drawable-xhdpi/scrubber_primary_holo.9.png
+ create mode 100644 core/res/res/drawable-xhdpi/scrubber_primary_holo_dark.9.png
+ create mode 100644 core/res/res/drawable-xhdpi/scrubber_primary_holo_light.9.png
+ delete mode 100644 core/res/res/drawable-xhdpi/scrubber_secondary_holo.9.png
+ create mode 100644 core/res/res/drawable-xhdpi/scrubber_secondary_holo_dark.9.png
+ create mode 100644 core/res/res/drawable-xhdpi/scrubber_secondary_holo_light.9.png
+ delete mode 100644 core/res/res/drawable-xxhdpi/scrubber_control_disabled_holo.png
+ create mode 100644 core/res/res/drawable-xxhdpi/scrubber_control_disabled_holo_dark.png
+ create mode 100644 core/res/res/drawable-xxhdpi/scrubber_control_disabled_holo_light.png
+ delete mode 100644 core/res/res/drawable-xxhdpi/scrubber_control_focused_holo.png
+ create mode 100644 core/res/res/drawable-xxhdpi/scrubber_control_focused_holo_dark.png
+ create mode 100644 core/res/res/drawable-xxhdpi/scrubber_control_focused_holo_light.png
+ delete mode 100644 core/res/res/drawable-xxhdpi/scrubber_control_normal_holo.png
+ create mode 100644 core/res/res/drawable-xxhdpi/scrubber_control_normal_holo_dark.png
+ create mode 100644 core/res/res/drawable-xxhdpi/scrubber_control_normal_holo_light.png
+ delete mode 100644 core/res/res/drawable-xxhdpi/scrubber_control_pressed_holo.png
+ create mode 100644 core/res/res/drawable-xxhdpi/scrubber_control_pressed_holo_dark.png
+ create mode 100644 core/res/res/drawable-xxhdpi/scrubber_control_pressed_holo_light.png
+ delete mode 100644 core/res/res/drawable-xxhdpi/scrubber_primary_holo.9.png
+ create mode 100644 core/res/res/drawable-xxhdpi/scrubber_primary_holo_dark.9.png
+ create mode 100644 core/res/res/drawable-xxhdpi/scrubber_primary_holo_light.9.png
+ delete mode 100644 core/res/res/drawable-xxhdpi/scrubber_secondary_holo.9.png
+ create mode 100644 core/res/res/drawable-xxhdpi/scrubber_secondary_holo_dark.9.png
+ create mode 100644 core/res/res/drawable-xxhdpi/scrubber_secondary_holo_light.9.png
+ delete mode 100644 core/res/res/drawable/scrubber_control_selector_holo.xml
+ create mode 100644 core/res/res/drawable/scrubber_control_selector_holo_dark.xml
+ create mode 100644 core/res/res/drawable/scrubber_control_selector_holo_light.xml
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_control_disabled_holo.png b/core/res/res/drawable-hdpi/scrubber_control_disabled_holo.png
+deleted file mode 100644
+index 0396940c7ed51b235084f509098bb60f0d49ce2f..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 460
+zcmV;-0W<!IP)<h;3K|Lk000e1NJLTq001xm001xu1^@s6R|5Hm0004#Nkl<Zc-rlm
+z%WA?<5Qfzt5wo)f1PgU<TQS`f6XOM%3Qab?X{&E$+if}n69}PDJacZ<Gw?ykWzPST
+zNzSd+a^b>-i;IY|ECb*Uh=3HxfSkzaTtxQ-wuo*6V;}*FGfC*#wkh!;un`d61apKs
+zg?qrG1mR6Er>9!H4=fdkufW{CO7R<o;_D^lt0<eL2J!Vb;mI^G(<r`TCi8Do7$TJM
+zpWhlZux0fV)X@}%8FLII78poG#rG``UlE8Hm{??BB4Qx2$iS0`ft1nU9(V^%#0Q-d
+z&6kQ8cx5z*f}3$<<lBiDcw;p9`HO*XM!sCcK>pti>=+FmY$ze_M|_|+@kPhlKjOJX
+zztQ<sc4RgUCHkV{p@jwF7gs%;#tF^Zp!hX=;R_NB4H_8Anit<25dR=^RidMLc7|<r
+zWUmc%ft3dF*hW{?>KvMg6^f6QiEotCRDt-Z^s@QG$bdQEtC!4;$xV(C@O<X{A*W|X
+zHf=HWfLmHe#ae!$t)+~PW4ea-^xUSL3l}afBYpr@ozFnQFHryh0000<MNUMnLSTaE
+C%grqS
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_control_disabled_holo_dark.png b/core/res/res/drawable-hdpi/scrubber_control_disabled_holo_dark.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..0396940c7ed51b235084f509098bb60f0d49ce2f
+GIT binary patch
+literal 460
+zcmV;-0W<!IP)<h;3K|Lk000e1NJLTq001xm001xu1^@s6R|5Hm0004#Nkl<Zc-rlm
+z%WA?<5Qfzt5wo)f1PgU<TQS`f6XOM%3Qab?X{&E$+if}n69}PDJacZ<Gw?ykWzPST
+zNzSd+a^b>-i;IY|ECb*Uh=3HxfSkzaTtxQ-wuo*6V;}*FGfC*#wkh!;un`d61apKs
+zg?qrG1mR6Er>9!H4=fdkufW{CO7R<o;_D^lt0<eL2J!Vb;mI^G(<r`TCi8Do7$TJM
+zpWhlZux0fV)X@}%8FLII78poG#rG``UlE8Hm{??BB4Qx2$iS0`ft1nU9(V^%#0Q-d
+z&6kQ8cx5z*f}3$<<lBiDcw;p9`HO*XM!sCcK>pti>=+FmY$ze_M|_|+@kPhlKjOJX
+zztQ<sc4RgUCHkV{p@jwF7gs%;#tF^Zp!hX=;R_NB4H_8Anit<25dR=^RidMLc7|<r
+zWUmc%ft3dF*hW{?>KvMg6^f6QiEotCRDt-Z^s@QG$bdQEtC!4;$xV(C@O<X{A*W|X
+zHf=HWfLmHe#ae!$t)+~PW4ea-^xUSL3l}afBYpr@ozFnQFHryh0000<MNUMnLSTaE
+C%grqS
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_control_disabled_holo_light.png b/core/res/res/drawable-hdpi/scrubber_control_disabled_holo_light.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..3fd7f095e85e917b12626cd6e6228a7ca6c10321
+GIT binary patch
+literal 555
+zcmV+`0@VG9P)<h;3K|Lk000e1NJLTq001xm001xu1^@s6R|5Hm0005<Nkl<Zc-rk*
+z+e*Vg5N#`>=$lp$EYyd-Rg>n@rs*{m)PnUz=>O!GwEmfwSDjNf5F`&~FWI&3z#&Vr
+zJ98#GJA13utXQ#PWhcaOoMX@P+CdQb^qkT2&iDNlfHHfBZ*9~yg?BxU;|n4-A)=3E
+zfHr6g9a@;vpFATHi?YNE99ckDWyII(^&S~^M2Q!`fo`SbJDtt}8Ja2}pJ56c%E-$I
+zncswzbSGHYOjVQ5_k`4NqCw_XNPY|0l$LF(CZBUcI6Kuz(Ty$#U|VROz(k{w{1$Ao
+z;}f14RzX&p@RC2$O+EwH+Nsy;U7F$mxbXCVZ;AtifG2&<1PneAo(XRZFYFy}I-Qkv
+zfEwNlH~_+5KkzD`Z^;uv4*~|?3mo_q(6{30fz@AkU@2g5qdkNq4B`#zi4Rt;b`XbQ
+z=$Vp6!R230WX3Edz=dl)M4pcf`1>R7)u`*b+LzPdAhe;O0hDMQyovC^7sX#wW9&Dj
+z?2GA7TxlSGE%RihQRVIow$e0hNIe@OrThJUf3BK5Y`~V1(>W-na2hKdv}0xD^Wj9P
+zt*anicA>knQ|dU5PXrfy*+OkT7z|Fe-EdIMo)eK_$^8TB4$;<_E2bn#4x=b);Y<^;
+tOt{6>5`Z$^;T!6puDz7AV#UgC$T!WLxGQLWpdkPN002ovPDHLkV1lsF0B-;Q
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_control_focused_holo.png b/core/res/res/drawable-hdpi/scrubber_control_focused_holo.png
+deleted file mode 100644
+index 608b116effa6ebcb9641e6df360c018cce0f0475..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 682
+zcmV;b0#*HqP)<h;3K|Lk000e1NJLTq001xm001xu1^@s6R|5Hm0007UNkl<Zc-rlm
+z%}&BV5XUK{6$u;wBYMCDjvO$aA)E*eMjybSK8#VK&tZ%qK9V2AXYhl>gLT&YO&TI$
+zXXw&GI?3<Sw6p)&o!Rb3DwSAbiG^am?^{Hgu!#)e5H4`=%*H!b+(avZn?!*q5?jPJ
+zu>-d8tcZ6u@l7<rK)CA74I&S5b>e{N5Iv$#9D_cdb?{Cd-{j%LURof59#@T5h<&0P
+z5UWcU-&Wx3cSKB!S3Q*_N<@S31j48B;Hw1Rwn_0hVwY%zAbgq@eCI+B0^-#$SB2@q
+zNvkT_vcvBAYDg)glTy`CMgj$!#n5(_AU-$}yJ$PT$W-Z|xLQjTAFPQIG+2w|eIo+#
+ze>6n(fZlg8M|%+l;6a1S8U^IOio6-2_&=J^lI8^9;8!mx+!NxKcqHD4cjAe-BL>2P
+zR$3fR`l#x!2^zbA=vk(MxfJ-VVF76ArcVKjF0S}*f4-@Au9&_Lpee08`xLQq)NSAt
+zy{l^<#5u!%2byf105ZtA9;1PKpKl|E{~k1DbPHHbU5AVYo&^Dn8U7EU$<YbG#V(4I
+zqo0BRzL;$&O)e*ZBZl)yoC1)f&{z<_tEm){6!Az9z=NqGmQ14qOpUsxYUa$;G%Ed(
+z4K;sc%C1fR$SnM}B}<9noRLt)ek1T(*Ir75u$UX*$M%9$nV`r=%(Rg$=3=;<-j^(=
+zEu5IeWka*U-d3*kmU3!SUnbfSh;O59*`|Kwk5wW**xC#Ah;gNl7H1spwhiUHnZw<G
+zj@Qcuj@QdZkJs1Yf@8)NQ(=KCroz&%m>8FQmB1xmC03VwYje$-SYm5nKUhiR1*u~o
+Q4FCWD07*qoM6N<$f<Od4?EnA(
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_control_focused_holo_dark.png b/core/res/res/drawable-hdpi/scrubber_control_focused_holo_dark.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..608b116effa6ebcb9641e6df360c018cce0f0475
+GIT binary patch
+literal 682
+zcmV;b0#*HqP)<h;3K|Lk000e1NJLTq001xm001xu1^@s6R|5Hm0007UNkl<Zc-rlm
+z%}&BV5XUK{6$u;wBYMCDjvO$aA)E*eMjybSK8#VK&tZ%qK9V2AXYhl>gLT&YO&TI$
+zXXw&GI?3<Sw6p)&o!Rb3DwSAbiG^am?^{Hgu!#)e5H4`=%*H!b+(avZn?!*q5?jPJ
+zu>-d8tcZ6u@l7<rK)CA74I&S5b>e{N5Iv$#9D_cdb?{Cd-{j%LURof59#@T5h<&0P
+z5UWcU-&Wx3cSKB!S3Q*_N<@S31j48B;Hw1Rwn_0hVwY%zAbgq@eCI+B0^-#$SB2@q
+zNvkT_vcvBAYDg)glTy`CMgj$!#n5(_AU-$}yJ$PT$W-Z|xLQjTAFPQIG+2w|eIo+#
+ze>6n(fZlg8M|%+l;6a1S8U^IOio6-2_&=J^lI8^9;8!mx+!NxKcqHD4cjAe-BL>2P
+zR$3fR`l#x!2^zbA=vk(MxfJ-VVF76ArcVKjF0S}*f4-@Au9&_Lpee08`xLQq)NSAt
+zy{l^<#5u!%2byf105ZtA9;1PKpKl|E{~k1DbPHHbU5AVYo&^Dn8U7EU$<YbG#V(4I
+zqo0BRzL;$&O)e*ZBZl)yoC1)f&{z<_tEm){6!Az9z=NqGmQ14qOpUsxYUa$;G%Ed(
+z4K;sc%C1fR$SnM}B}<9noRLt)ek1T(*Ir75u$UX*$M%9$nV`r=%(Rg$=3=;<-j^(=
+zEu5IeWka*U-d3*kmU3!SUnbfSh;O59*`|Kwk5wW**xC#Ah;gNl7H1spwhiUHnZw<G
+zj@Qcuj@QdZkJs1Yf@8)NQ(=KCroz&%m>8FQmB1xmC03VwYje$-SYm5nKUhiR1*u~o
+Q4FCWD07*qoM6N<$f<Od4?EnA(
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_control_focused_holo_light.png b/core/res/res/drawable-hdpi/scrubber_control_focused_holo_light.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..c422c206aa864dfd84490a21a6610cc4e022926b
+GIT binary patch
+literal 807
+zcmV+?1K9kDP)<h;3K|Lk000e1NJLTq001xm001xu1^@s6R|5Hm0008+Nkl<Zc-rlm
+z-A+?M5XU(MK~237iNy;|B)y{TG4wM{4e14eNc6H7#*c?FO7uC5A&rkDNPGqb5-!B~
+znK>p3!p`<=duYxklb)WlJM*92|Lo50&dlT`FL_C;L?VU3U@+V7_vado#x;4KM|kEP
+z->9Q?vjZA{-EQ|ruh+X(tJQAH|D`yN@3va4WrSzm@r^pvrOhOriRjI8xx64fTLhc{
+zU1>I(Yf{$b|E4@Ysn_ez5T1F*H|kKAHnc^Dj?CB`DJUh1old7DpdN{ABw$^IHnc^D
+zc0w{DK@0r8E)-Z4!>a;h%L@D)*+LgO(T$BD$QfqorJEx6ga*A7fd3`vL^n2+Qt5)P
+zR4PT`?tPJsw81BWZfsyHO(%Z$Jc?7I%%zmV7B<tMQvqHwv>|)`yph1B#)NlZM>@YR
+zhTyzQOki7Qr^t)<I#sTY8+;<z27^yLL=s5z%+X`w{Y6u32`tu8fcr&J5Kj<%A~9G@
+zu>kK_>U~yN;qG(!{V4K9<h#fZkv-A%Nq%4Wtk_`DSa72c(cf;jA9@&jqo7a!BRKQc
+zsuwIIfUYzukTH^Ud4T_U0r*6y^UgS`YhZGs5fM+?OXg@W@=|;E)KLya|7%0%tb@sE
+zHqy-qoZB=wuxkLH$k0_kSTy~fa|+;UwOW#4+cr3`@8Q6KfkNA0atdU&fb61-fp+BK
+zz=<)vSO%NLfv1KcKF*8-o)kLpaNt`I3V8<c(CUEb{~RQUJ*QDt*h7N@N232#kZE*;
+zg>1)hA*1)-2V2Nku35G{Q;D5RMuK4f;IYA3v7{0sC38xrU1|SSr`KZ*@}Y$`qa<^g
+zN~bwHGN;oF6(?p{+0cN+ysf<ITgpG1dI{z`^80w);IXN;{WkT}aI7-1gDtW5AgzO~
+zsW@6ZbGREKCeRt|aQENib%HDH<8^cfJzk%d3yw2aOe9&pS4^~>#1)g%B_A7*<dRP}
+lBbmD7o0@CZyyWGomtPfdn$SLh=$8Nh002ovPDHLkV1h5@gwX&1
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_control_normal_holo.png b/core/res/res/drawable-hdpi/scrubber_control_normal_holo.png
+deleted file mode 100644
+index 1df0f143430fc6439ef932719cb5730424b0439c..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 819
+zcmV-31I+x1P)<h;3K|Lk000e1NJLTq001xm001xu1^@s6R|5Hm0008|Nkl<Zc-rln
+zPj1>k6vi<oLVyun5EczxBuJnvP}TGZVbMBG74DHu6P093mZ`D{(897Dqnx41MZy7s
+z6uI9>AClu5*Y=F@5Y^IeW6XQs8_%CN^PI{2zcLxeaSV_JIgkehQ1VdVZ#h0|=pfpp
+zC<|0U9W=l`XoI(;&3g?#Q{{j1v|+4UxM;;9h3tX@Z~{(2AKZXjFd?_R*XJ`Q{Le0J
+z6lv2)TD-}wunn5P20buzi4BYR&sW-L(x$L&Ce`X&paS;5N4Dlf5yI97+OE)-p;El)
+zt2Ms%GcZ;teu=R8g+6NZX~>Gt^0n@O4!BN0xEJB$kUoX)tW3)nIBOh(!5YLb8PI2)
+z8jQHzW`~BpuTlIG;qw!C9l1Mk5Y^ai1}TVlzllR?*@`k%RydfhQxxwW6Yr?W4BPMb
+zINMA#;f$Js#{*ZxZO-#!jRF``lhBq6YW*Tt#lA-3-HTn58jV$bzsjY3qA4~tntlP~
+znOyZW4xmSkdB5&sapoCHI{68Hg9or654<;(v^}Io>sdEq${=1%SJJ^R@aU|*9{G%n
+zk1n-ly|Yi9xw?$_u$N2_r_`GB_Wy>&>@)pG%lo~Fsl;s5cs35WK<snZ6vybD6aBi2
+z>Fb7C3+@0)+_#Qm8lA@oU>?)gh+0eT04#34<F39>F#>p!Se1oV%lihz%^#Z_KwBbp
+zPQ44s4&wV50o<z`#44uIMFjB+)zheog=`iffSKxrOjRl|3z169l1L>)GFN7zG?H{M
+z<svnAC3AD$lTGGE)L8y&PvA<YFEvi5FMZQ#&xYnm;{c9=HZ;pEWeZ$sx}|Kb+){cr
+z^|pqadOL7a|00f6d=9q0X>zc25b9t{)1$>sq@zWj!`;s*9_}7fL-bmKYdpMR5Sw$n
+zu0esLBVFKFQDS-z&J!##ohvOd`4stHaXPaVFLqb7slLb;P-bm$X}^#tvtCemE73A*
+x$U=8FLZQ2xN})U8Q-kuxd}{DwKK9V%`U9Mf>I^PbV^shE002ovPDHLkV1n(yge(96
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_control_normal_holo_dark.png b/core/res/res/drawable-hdpi/scrubber_control_normal_holo_dark.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..1df0f143430fc6439ef932719cb5730424b0439c
+GIT binary patch
+literal 819
+zcmV-31I+x1P)<h;3K|Lk000e1NJLTq001xm001xu1^@s6R|5Hm0008|Nkl<Zc-rln
+zPj1>k6vi<oLVyun5EczxBuJnvP}TGZVbMBG74DHu6P093mZ`D{(897Dqnx41MZy7s
+z6uI9>AClu5*Y=F@5Y^IeW6XQs8_%CN^PI{2zcLxeaSV_JIgkehQ1VdVZ#h0|=pfpp
+zC<|0U9W=l`XoI(;&3g?#Q{{j1v|+4UxM;;9h3tX@Z~{(2AKZXjFd?_R*XJ`Q{Le0J
+z6lv2)TD-}wunn5P20buzi4BYR&sW-L(x$L&Ce`X&paS;5N4Dlf5yI97+OE)-p;El)
+zt2Ms%GcZ;teu=R8g+6NZX~>Gt^0n@O4!BN0xEJB$kUoX)tW3)nIBOh(!5YLb8PI2)
+z8jQHzW`~BpuTlIG;qw!C9l1Mk5Y^ai1}TVlzllR?*@`k%RydfhQxxwW6Yr?W4BPMb
+zINMA#;f$Js#{*ZxZO-#!jRF``lhBq6YW*Tt#lA-3-HTn58jV$bzsjY3qA4~tntlP~
+znOyZW4xmSkdB5&sapoCHI{68Hg9or654<;(v^}Io>sdEq${=1%SJJ^R@aU|*9{G%n
+zk1n-ly|Yi9xw?$_u$N2_r_`GB_Wy>&>@)pG%lo~Fsl;s5cs35WK<snZ6vybD6aBi2
+z>Fb7C3+@0)+_#Qm8lA@oU>?)gh+0eT04#34<F39>F#>p!Se1oV%lihz%^#Z_KwBbp
+zPQ44s4&wV50o<z`#44uIMFjB+)zheog=`iffSKxrOjRl|3z169l1L>)GFN7zG?H{M
+z<svnAC3AD$lTGGE)L8y&PvA<YFEvi5FMZQ#&xYnm;{c9=HZ;pEWeZ$sx}|Kb+){cr
+z^|pqadOL7a|00f6d=9q0X>zc25b9t{)1$>sq@zWj!`;s*9_}7fL-bmKYdpMR5Sw$n
+zu0esLBVFKFQDS-z&J!##ohvOd`4stHaXPaVFLqb7slLb;P-bm$X}^#tvtCemE73A*
+x$U=8FLZQ2xN})U8Q-kuxd}{DwKK9V%`U9Mf>I^PbV^shE002ovPDHLkV1n(yge(96
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_control_normal_holo_light.png b/core/res/res/drawable-hdpi/scrubber_control_normal_holo_light.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..1346598d0c0c10c1ab730d0d70e1b6571711be45
+GIT binary patch
+literal 998
+zcmV<C0~!2@P)<h;3K|Lk000e1NJLTq001xm001xu1^@s6R|5Hm000B6Nkl<Zc-rln
+z%}x_h6vrt@h**OQ=t6O!5DfwQ4W#X+iCtI_BMaVwjTpftbctajpmr&bVV}YBBJcn-
+zF?fD>20OO3ojbR~)Hun>OsDsr`#<-ddp_=&p`riR)fL&@-5o9#i??QHXUB56-0gTg
+zey5pu$A7e;Eq!hr^v1@<h=Ph{GMUNc<>hI)&!p4oIk`VuT3Sj#JnOp|Z8J$9`obe<
+zVIs_;fEWje%<dz(r-fb%$jwwLwI|O9LLcRK72=t9{6`zw(ntGF!V8{32r_~y2#_h6
+z*(b?lazy}b3mrLNJrI4~!2@3Kgg0aKW!7buMujF87Z)GPU}c@nstr<JFW}7>jAe5*
+zBIR;<OqM&wvddswGT0Ye;F}1ZZ&bBn><=444703>MB;$}FUbJ=eE|L^?aNrt8B<ki
+z*m&mE98L?<HKD@*z&pfPYmBWzM2ysiS%8tu$fp3oJNtq$U&{TyXLVu|p@*tAhe3mH
+zUJ2Am_upvGrcy0IIv}0zx+k*PYzj=hnAj`5S97)%0`QI_+yYbA{eU;bp<w6xWGanK
+ztooiQ_1GPq)wp`ay%2%Fc6ML`W7}0As3I=W@Sqw-0vi}L0CZoNDuOGGZK@%qZ7`}?
+zZHX|WYI%-)Zn&><|1NYU)KEIpcPBmtI07SBU1~&v!O}>Bb)VqB$^Am;vIAXc8$Uv<
+zgH@BF-`0mjgIL`s_{(0%rx2T9by*{HifqY;^*QM>^DQf3s!p0P&A9df4nkAD1H;*`
+zdjRjOLfvpIFwUt{`*o3YYu<Wn$n@MmfOEsuJ_ak8uLYQ&pO2D!`|!R$yb7RwjJz^f
+z!R%TAJw5n5umY$G9S)=lS=hv<1_GQ~+r*a4Xv2d54Xb9<h9eWIc@Usx)sfi>B^202
+z7YA0e9!d}x6$*vB8q6L0901j*%Tk{^!JIzVEd+CH;51lUasqTp%oAso@535SgAI)B
+z!s+XTMrbv}0<3mSXq=QXo6SCzC9i}rr372Yl(IRgmxe20OX|VYEvX;;W0f`sTOY!3
+zu%!i*iJof*&e5Vs9fqUDlGmd}*Ws=(cy)t^yK7(oi_r-+I=8T}@DL#e?RdSVz@h3C
+zRDq*pqrl-(r+hvi6Xv3dnYaBaF~Qp@F`25(UyFRnWbz*744W*!D;D*=0?&RG`P!CQ
+z)hn*b^NwkmmA;&Js`u|}nYC-7TSM`l3f&qK-$<dm?WYDBiVw`E2LH^*9-+8?0th&U
+U2#<XzZU6uP07*qoM6N<$f`N?EE&u=k
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_control_pressed_holo.png b/core/res/res/drawable-hdpi/scrubber_control_pressed_holo.png
+deleted file mode 100644
+index bb4dbc9466beb6c147185ec1e79beec49272542f..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 932
+zcmV;V16%xwP)<h;3K|Lk000e1NJLTq001xm001xu1^@s6R|5Hm000APNkl<Zc-rk+
+zPfrt35Qm=REPe;;!5-8jX9IeL+An|yO4A}FV1o7&l-dxZ312|HKqv%DBT4nt3MUm$
+zr4fzw0(hZYj9up?vvC;rPj`0PU89ryl1=vQyx;Hb+j%qZ?ZCi)`)#_eUjSSKBmk3u
+z2MBc?2V7Nc!bbWslB@tU-Pts3`w$QflK42_t?u2FkMVvI9|gR#AoByz090|5iwJdH
+z1AN9dX7*nB?j`Yyfaexd;x!--NaB3AgKD#c&$LYZl~iATlOF-pSx3i!7l2e3q^*!b
+zAIHr1f$GyQ@)Lkl*1<L)?SVK)8huhzZzt{t`3`aV9Z>L*IL9Nv3F)sR7J<`-j{G;k
+zLJ!Fsn8&{8n;4ONuysa$wh!bD%rX&mS06S;0y=FL`beI>2|Arh-IBk_KBhtd<P8)U
+zmr*D3gMbe#+Drxv8l4okh*Q*|aXu3Q0co~QOxOvik%ns_Aa7ue@TysnkFwB}3Xy;m
+zOFN=w0<xq*#Y1QJ02`RNwQwyt1gryQJov2;epxdCw865llcyF5nqf-JW1;V5I>2U?
+zltxnGq>y|!))9(Gl2lwfSJ`11XjntIa%wJ$m{VbdYY-pTselBzQ587e5>#SEK|fXU
+ze1ZzdkQ-%z<F5h%p9KAs$@3X1VA12q{1gb#1pO4r^NUo#eR5;-ZxoOuH(m)GH-nx+
+zcj!_ra9k1y*zofs_8La#1YvZ>&oDX!Xp@C(O5l9O#X|N(;9qe%Lm!IkkX<T~6E62F
+z4sSxk6<gvvXPHWvBy&3+lCC*i*uLP1wefn>V_m)Dl+49gIz1htbb6X4i7~61V2?Cf
+z4UvFV!fVg2B8#(<GOdTBq&y<L;&uWefPJ>n8nghq#_Zb`^(bPDMUGs6<d+ziTixyr
+z(XEUV+++%RV{6;Z&fF!;Rf61FY_jZNShBg>Vj|}IH1bVPo4YJ3b=Y*u_mF&^ZDMuK
+zC2bx=v`mhH{664#X>!1k@bif2fOT+$XJ#pnE9^5C=lwlmA|i%Oj)9Dks$j^Q>N2a$
+z;WK7?NM+X_tV<zdY_X$u#*SIn5ymm=AxVk3eFWU@*IDr(?qu)!aL~Pr6=5W(6Z<Is
+zHt>cNMRwN4wkmzU61M*)RAqOA{OplM+{I`X`=gTj*X<Xs6Fwl8QWLlU0000<MNUMn
+GLSTYoPpo_Z
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_control_pressed_holo_dark.png b/core/res/res/drawable-hdpi/scrubber_control_pressed_holo_dark.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..bb4dbc9466beb6c147185ec1e79beec49272542f
+GIT binary patch
+literal 932
+zcmV;V16%xwP)<h;3K|Lk000e1NJLTq001xm001xu1^@s6R|5Hm000APNkl<Zc-rk+
+zPfrt35Qm=REPe;;!5-8jX9IeL+An|yO4A}FV1o7&l-dxZ312|HKqv%DBT4nt3MUm$
+zr4fzw0(hZYj9up?vvC;rPj`0PU89ryl1=vQyx;Hb+j%qZ?ZCi)`)#_eUjSSKBmk3u
+z2MBc?2V7Nc!bbWslB@tU-Pts3`w$QflK42_t?u2FkMVvI9|gR#AoByz090|5iwJdH
+z1AN9dX7*nB?j`Yyfaexd;x!--NaB3AgKD#c&$LYZl~iATlOF-pSx3i!7l2e3q^*!b
+zAIHr1f$GyQ@)Lkl*1<L)?SVK)8huhzZzt{t`3`aV9Z>L*IL9Nv3F)sR7J<`-j{G;k
+zLJ!Fsn8&{8n;4ONuysa$wh!bD%rX&mS06S;0y=FL`beI>2|Arh-IBk_KBhtd<P8)U
+zmr*D3gMbe#+Drxv8l4okh*Q*|aXu3Q0co~QOxOvik%ns_Aa7ue@TysnkFwB}3Xy;m
+zOFN=w0<xq*#Y1QJ02`RNwQwyt1gryQJov2;epxdCw865llcyF5nqf-JW1;V5I>2U?
+zltxnGq>y|!))9(Gl2lwfSJ`11XjntIa%wJ$m{VbdYY-pTselBzQ587e5>#SEK|fXU
+ze1ZzdkQ-%z<F5h%p9KAs$@3X1VA12q{1gb#1pO4r^NUo#eR5;-ZxoOuH(m)GH-nx+
+zcj!_ra9k1y*zofs_8La#1YvZ>&oDX!Xp@C(O5l9O#X|N(;9qe%Lm!IkkX<T~6E62F
+z4sSxk6<gvvXPHWvBy&3+lCC*i*uLP1wefn>V_m)Dl+49gIz1htbb6X4i7~61V2?Cf
+z4UvFV!fVg2B8#(<GOdTBq&y<L;&uWefPJ>n8nghq#_Zb`^(bPDMUGs6<d+ziTixyr
+z(XEUV+++%RV{6;Z&fF!;Rf61FY_jZNShBg>Vj|}IH1bVPo4YJ3b=Y*u_mF&^ZDMuK
+zC2bx=v`mhH{664#X>!1k@bif2fOT+$XJ#pnE9^5C=lwlmA|i%Oj)9Dks$j^Q>N2a$
+z;WK7?NM+X_tV<zdY_X$u#*SIn5ymm=AxVk3eFWU@*IDr(?qu)!aL~Pr6=5W(6Z<Is
+zHt>cNMRwN4wkmzU61M*)RAqOA{OplM+{I`X`=gTj*X<Xs6Fwl8QWLlU0000<MNUMn
+GLSTYoPpo_Z
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_control_pressed_holo_light.png b/core/res/res/drawable-hdpi/scrubber_control_pressed_holo_light.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..07e93e37c8b924bde2c8ead95c6362d52ec33a43
+GIT binary patch
+literal 1033
+zcmV+k1or!hP)<h;3K|Lk000e1NJLTq001xm001xu1^@s6R|5Hm000BfNkl<Zc-rk+
+zOHUI~6o#&JE&d1VLg~XMU66EVd~Bum58#4Aib4V=NPj`Wh8Ruw1HuLZ62(T7>Z&|e
+zN?l3gBkD%$rk&PUJja~k@i;S`xijsI(Mi5c+uS+lJNMo>uiL)9|JSc8kw_d1hr^Lj
+zD3pTxNF)-ug}~2%B;X8=@fB$xc#23C0UF@212h^t2MBse{0b1*u|T*Jc2HK&h{N`{
+z0196ikog9v07^8=8wC8k4R}Xm^qzf*vb#n+7K@z#CCdg|;u&B8kf!}^1{^bw&%i{~
+zr9Aj;3w60l9t018;MYRg7nrdX_<h_0X<gv6C<A2)*$1f8E%L*Fno#f<kWnSBgAB>!
+zI&gK8Zjf&=p<iLv@-7mWD{>p|Ri>|{Yy>W$nE6kjV5VE-nGw^dORU6@?H5+;c_csC
+zZSu^BNp1vkvGro3ClK3ardQ;}N>sUbvbuH73%8c<HF;)4o^!DhC;DOFzVJ399)o+Q
+zec%}A<aLhxJYd2H24qB>7&bFtn+;s^0r@u87_V(3@<F!m>rNtU7v6<&k#+?249Kzp
+zMF+}m03KlCMoMdNe+&0@xL<c*NRjc&>KVWXEGjCwr<b5HpfPt8WiRpx)~lp6mJ+8`
+z$Xm?+Ti^~=j7YOoT>GuE!!nR5s3=BG%|;PZQ}l2Z789aJ21KLL6cb)j5d2V~65CMF
+zQ))ktocRh&Fu?@{!5<V1c%z`Fz@DGrxzDV_nfb0@fTo~lgSq-yz5+Ly;LX3$fHV{Q
+zMByd==;;=MH~K0M)piBL^ILWepkU|POYF#v0;cS`QN^gN??&VC_;L8L!2;Q+!Zup6
+z8pr^5704r}Cdp_ZXR}lyr<eyVbyx|FBDP8@kuyvsWHJXto;panrYNwzrx|O|=S?Sd
+zHE}Xd=3q~q73uVtkJ9Neo+KhyqhfxK8L{dk16CQYJ+q1|DN4$WPfE(qjF)MnD*yw^
+zyp`d#0V2kfO^bTUOfL%0k@L`ic@g|BS?vw+Rz{VYOrAEjkdvK5jFXhBc-C4J`BeqJ
+z52!SE>%xfXUd+58Z@;-Kyb^D(SLr0CTLvtMCKlGuDW_)yNwE@b@8tFY$0K>b;h4PG
+zP6t8(`sQVaM@$&)?+ZWg?hzA<(gQljK!+6Ki{$b~EoPPInu`WKq=M}i*3Lz7qHK_D
+zHpMaPI^pLrD|P6a2G70%T<+CzaX)pkcU?H>-o=VAo6QD1IkBgv@EpwUb5<0Yp+RG_
+zK>W0?{x^YD(%|6Wx%QtusK!8CLvMy@@E?`bzkdAyuk?{IZPLXN00000NkvXXu0mjf
+DQ6=Qv
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_primary_holo.9.png b/core/res/res/drawable-hdpi/scrubber_primary_holo.9.png
+deleted file mode 100644
+index 4cfb1a7c7e1f5232fe1c76d995f65cc514bd6d1c..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 109
+zcmeAS@N?(olHy`uVBq!ia0vp^f<P?7!3HF=7hLlMQYM}*jv*Ddk`o#l{);5+V4TwM
+zzxlL4TVmRY|Ns9>pE!D=Z31uGM#U-YZ$5bC9NwU@U_}KB!#nNX30u|}90uxV@O1Ta
+JS?83{1OO00Cr1DP
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_primary_holo_dark.9.png b/core/res/res/drawable-hdpi/scrubber_primary_holo_dark.9.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..4cfb1a7c7e1f5232fe1c76d995f65cc514bd6d1c
+GIT binary patch
+literal 109
+zcmeAS@N?(olHy`uVBq!ia0vp^f<P?7!3HF=7hLlMQYM}*jv*Ddk`o#l{);5+V4TwM
+zzxlL4TVmRY|Ns9>pE!D=Z31uGM#U-YZ$5bC9NwU@U_}KB!#nNX30u|}90uxV@O1Ta
+JS?83{1OO00Cr1DP
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_primary_holo_light.9.png b/core/res/res/drawable-hdpi/scrubber_primary_holo_light.9.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..b1e3e0ff3d72a16cc37b3a44d2d198c4dd3414be
+GIT binary patch
+literal 109
+zcmeAS@N?(olHy`uVBq!ia0vp^f<P?7!3HF=7hLlMQYM}*jv*Ddk`o#l{);5+V4TwM
+zzxlL4TVk3=R8$o6PKlcn{y%w?n8Wdu(Rz>2Z37)H4J|pwDU07Imp^5@1=P>r>FVdQ
+I&MBb@0Bvs~(f|Me
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_secondary_holo.9.png b/core/res/res/drawable-hdpi/scrubber_secondary_holo.9.png
+deleted file mode 100644
+index 133c2a1a90f24e7a0ef68cf133b79454fe807f56..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 110
+zcmeAS@N?(olHy`uVBq!ia0vp^f<P?7!3HF=7hLlMQl_3Rjv*Ddk`o#l{);5+V4TwM
+zzxlL4TVmRY|NsAAJ$dv*+mA`z?Hd)Ru)q1>m2-H5#)1_UEDTGJL}tCv4J!s3z~JfX
+K=d#Wzp$Pzc=P3OE
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_secondary_holo_dark.9.png b/core/res/res/drawable-hdpi/scrubber_secondary_holo_dark.9.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..133c2a1a90f24e7a0ef68cf133b79454fe807f56
+GIT binary patch
+literal 110
+zcmeAS@N?(olHy`uVBq!ia0vp^f<P?7!3HF=7hLlMQl_3Rjv*Ddk`o#l{);5+V4TwM
+zzxlL4TVmRY|NsAAJ$dv*+mA`z?Hd)Ru)q1>m2-H5#)1_UEDTGJL}tCv4J!s3z~JfX
+K=d#Wzp$Pzc=P3OE
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-hdpi/scrubber_secondary_holo_light.9.png b/core/res/res/drawable-hdpi/scrubber_secondary_holo_light.9.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..b87f327e0f848f2f59538dc95e9baa6bbff0d7da
+GIT binary patch
+literal 112
+zcmeAS@N?(olHy`uVBq!ia0vp^f<P?7!3HF=7hLlMQs$m6jv*Ddk`o#l{);5+V4TwM
+zzxlL4TVh&AXJ@C?PKmsZi4!O4@2uD%<utWHHm);QLX1^Jw4cFxO5@GtrwZMHMlg7~
+L`njxgN@xNA*B&F2
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_control_disabled_holo.png b/core/res/res/drawable-mdpi/scrubber_control_disabled_holo.png
+deleted file mode 100644
+index e1cd93b0e1a8e8fdb1814a705aa1cdc6a2ea87bc..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 331
+zcmV-R0kr;!P)<h;3K|Lk000e1NJLTq001BW001Be1^@s6b9#F80003JNkl<Zc-rlj
+zO$viR428AJst2$luA~R3)4eE8QF|z_TYCqafec6~G|nW876adA$mBi9{3HnW*n=3$
+zvK)W}C;$aCz<@NkR$$J7TRcVq4cxz=F*oKA4uOm){K<&f8~TW!f!;yf(qoO##X#mM
+zzBZA$^jtHDuiFuCIqiy3+@eUg1Fw-5FkosX6a$5TxTT;NP=W@o6ax*h*aSR~iMXew
+z7#N7fjIfO-anDFGFcOQ+QU=-$EtnD37DygK^%K|7JVc#<ct?GR%u`$m7^ujD3M57X
+zpHZ~+M@$*N<CE(^QZfuArSDXfdW>YLv-q2lBXA+!jt+ApiLu;FN;wMDzzwN!Eyo<*
+dv3!reju$RFW|P3SKnwr?002ovPDHLkV1h}7hJ*kB
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_control_disabled_holo_dark.png b/core/res/res/drawable-mdpi/scrubber_control_disabled_holo_dark.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..e1cd93b0e1a8e8fdb1814a705aa1cdc6a2ea87bc
+GIT binary patch
+literal 331
+zcmV-R0kr;!P)<h;3K|Lk000e1NJLTq001BW001Be1^@s6b9#F80003JNkl<Zc-rlj
+zO$viR428AJst2$luA~R3)4eE8QF|z_TYCqafec6~G|nW876adA$mBi9{3HnW*n=3$
+zvK)W}C;$aCz<@NkR$$J7TRcVq4cxz=F*oKA4uOm){K<&f8~TW!f!;yf(qoO##X#mM
+zzBZA$^jtHDuiFuCIqiy3+@eUg1Fw-5FkosX6a$5TxTT;NP=W@o6ax*h*aSR~iMXew
+z7#N7fjIfO-anDFGFcOQ+QU=-$EtnD37DygK^%K|7JVc#<ct?GR%u`$m7^ujD3M57X
+zpHZ~+M@$*N<CE(^QZfuArSDXfdW>YLv-q2lBXA+!jt+ApiLu;FN;wMDzzwN!Eyo<*
+dv3!reju$RFW|P3SKnwr?002ovPDHLkV1h}7hJ*kB
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_control_disabled_holo_light.png b/core/res/res/drawable-mdpi/scrubber_control_disabled_holo_light.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..f48d590585e77ae962ffe7701e64f1634dfa279f
+GIT binary patch
+literal 393
+zcmV;40e1e0P)<h;3K|Lk000e1NJLTq001BW001Be1^@s6b9#F80003{Nkl<Zc-rk&
+z&2GXl3@$wm`T*O6IH4XY^)DGc^n{84ZR<nvx^(Zb`KvsHgrH8ENE~X(O4P>wzSwc%
+zAedwlxrB9HM@3PrK1gV6lu}<%%=z02Yp~WSa*`wq0F-5UAZ-WqfVHr3fj!Hz>|F?a
+zLj<<)VGXXej`KYKv;glFw(wy^0_?|tUz6ZSnC09u?03^)awbAPaIH&)Pf>NCj2!R&
+z5(O^N$AVh+0NyKn4-)VZ{(q&4*hnJK2zPU$@eJj;#AY{009UJUM*#n2{Sn%H4-&v4
+zp|j2l0ffmQ1t8HmO@Yrt$ale$mth>o5go+6YjF64Z_!muOtpvIYjLBJrs>@EV+5Z@
+zFCvBP)zx!MyMME4NUEw@k8MccV^mj!NZ7VyupI+_osJiBs3g_FYm{-$CDp;*@si1G
+nX*@!CuJDgLpD>tY5~2J7ty8OUpCl~!00000NkvXXu0mjfB@(g6
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_control_focused_holo.png b/core/res/res/drawable-mdpi/scrubber_control_focused_holo.png
+deleted file mode 100644
+index d3312aa67fbaf9550e533008282a0c4b4c76aba3..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 433
+zcmV;i0Z#sjP)<h;3K|Lk000e1NJLTq001BW001Be1^@s6b9#F80004aNkl<Zc-rlk
+z%}#?r6oos5M4FVQq-*;EUC6?9*|xOZiG2y{^JpZ#jn?=U{=5esl4C-&%pDkLiE)x|
+zL+0Ld;LZ$pdcFTqV`N#T4si@o2YA2-V=y6OKJz$7H7)E?;2eY?0t>Jv3qA`u$7hVP
+z74L%qn1VT2f{nnEbEk~$+lUXr48#V)KZzMTtZbqnehF4J#J^cFhq(#Xd_ea$;zbiP
+z=2RvIT-GmcK)hIvJf~~&_C6QUreWsHt#k$)ZX;>6Ux7RD1fIb?NDOvIp4-tGI0F|#
+zq8sp*{T}aNC&cEtJ?ZmDngmISc+tdG6Cah9fd&HM^FL(rNQE*4Is+3Ptz`-J1_oX=
+z@oQ?-Ht^E60jUJ3fq_Sx5|}K)4~_UIxURJbX~HwuhPx6Ix%jOR8<uXviU(1`9kJ)S
+zNQE~yK8Q|x6rcQO)QR75OAU!{(-j@RCF?{}dY~;IRcOmcjkM*$#Uv<POoG-fCY`yO
+b{n_ya#O~KvhP;ZT00000NkvXXu0mjfXsf%5
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_control_focused_holo_dark.png b/core/res/res/drawable-mdpi/scrubber_control_focused_holo_dark.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..d3312aa67fbaf9550e533008282a0c4b4c76aba3
+GIT binary patch
+literal 433
+zcmV;i0Z#sjP)<h;3K|Lk000e1NJLTq001BW001Be1^@s6b9#F80004aNkl<Zc-rlk
+z%}#?r6oos5M4FVQq-*;EUC6?9*|xOZiG2y{^JpZ#jn?=U{=5esl4C-&%pDkLiE)x|
+zL+0Ld;LZ$pdcFTqV`N#T4si@o2YA2-V=y6OKJz$7H7)E?;2eY?0t>Jv3qA`u$7hVP
+z74L%qn1VT2f{nnEbEk~$+lUXr48#V)KZzMTtZbqnehF4J#J^cFhq(#Xd_ea$;zbiP
+z=2RvIT-GmcK)hIvJf~~&_C6QUreWsHt#k$)ZX;>6Ux7RD1fIb?NDOvIp4-tGI0F|#
+zq8sp*{T}aNC&cEtJ?ZmDngmISc+tdG6Cah9fd&HM^FL(rNQE*4Is+3Ptz`-J1_oX=
+z@oQ?-Ht^E60jUJ3fq_Sx5|}K)4~_UIxURJbX~HwuhPx6Ix%jOR8<uXviU(1`9kJ)S
+zNQE~yK8Q|x6rcQO)QR75OAU!{(-j@RCF?{}dY~;IRcOmcjkM*$#Uv<POoG-fCY`yO
+b{n_ya#O~KvhP;ZT00000NkvXXu0mjfXsf%5
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_control_focused_holo_light.png b/core/res/res/drawable-mdpi/scrubber_control_focused_holo_light.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..345930236795686c211479354918abf3c7daba44
+GIT binary patch
+literal 525
+zcmV+o0`mQdP)<h;3K|Lk000e1NJLTq001BW001Be1^@s6b9#F80005hNkl<Zc-rk(
+zTS~(~6m6<t1uKf*`r8i)CQZ^(0&PDVt$(I&LR~|bp;X+BTHJ-&edswdl~SBLNt%!<
+z4jd9PbMLvYxtXa{{ztZ9X;3U_9LF2|e!tdeH0qAy?6q301A_1T#yPIZ+ZYRqH^VTj
+z2SIQMIIipVn$6|_7%B|-jdNVXwUo)jkZPyX+4el|2n1aq0@=9)uHjnBP?kC}F^|XN
+zD!kZ%N5=^9sfl<Ql%XtjP*-ZtDF{z|cygAOd=AP|2X&>1gvHR&`c=pmji4@-4s%Vg
+zc$mK|VVBZDovJWp?^(etqP)l#inB}IVidTCxs6QK?)&})p0~gw@C4k!!`QSts9W`k
+zpGOo$TWBmN25+u_SKwm_Zy>prWT~6YN*jK5Gu32t1r=+^zl{Jcg(&pMp-Y2h+xET`
+ze#}h-@-M*1dnpa%&>FzLu3D=ujL#+mfEPi2NRG?~z`JRo2AEQy!fP_%A#)0n6d~r{
+z1@aj%%36f%f;H1N<W|!dF@u3Ok}QAM(l$)oh!_cAqKa~=QZrh)5tZJG*WqVW{_nVm
+z1BnWK^;aFq%0HAYAIsbA_HNQ+IoIZOEZ1I4*iz>g6TTODF<G0d+20(WH1ZND5=sFl
+P00000NkvXXu0mjf_*C$8
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_control_normal_holo.png b/core/res/res/drawable-mdpi/scrubber_control_normal_holo.png
+deleted file mode 100644
+index 2fc609b0383ccb7f89ad78afeaaaa2037ce6b3ac..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 491
+zcmV<H0Tlj;P)<h;3K|Lk000e1NJLTq001BW001Be1^@s6b9#F800059Nkl<Zc-qaE
+zF>-=H6ox@4#1sx=Iy%SETWA&Am=j3JIYL7T7ATD;$T{Q~8BgF5$lJ`nGdl$3fxu>G
+zzCvW*|Fb;a?lX*rqbLfK7y%2&-=@*WfT$1}6E5Kqb7BeRxaQ&>s}nO2wuvdRBHoCA
+z2#JI^fdtnA+_S<QyR{K4>4aDidm<uIBC8?Ay?e|RF-C2~#d5CkWLZl-5yNGhfcT8q
+z5%Ck^k{GdOwI-A&7ZZ*hh)YDQ_lGNigqvW=;ts{tl~_Z=tTJFDX~G`FB_TBIs;8eK
+zbF-e=L(5bRSon6M0SrXYvQz_O6p)k|<V;+MZ*al2j9Djy)>vJB7gdZC;ET8wf5#2~
+zabg6}H07t~F_Z6nM_e^=W+tQe`$@up*h~(LiFr{!az>m3G)FQ4m)KP5CSDl^u8cS*
+zXj-a)qb>vT6(qV|f%YWS`x&AZIK;MLA<C6Pls7CyLd*GArC4r8zLw2M`*vJ9kZiOZ
+zNJ>Ytj~<R>JJ#V8CSGA;*h6W>N^G9YiLmjpykz19N#nO@O#If3$%EEx%V^EEowR0m
+hnp0=c=5&bm{0Ewn6vzmG#Y+GH002ovPDHLkV1iXK*DwG8
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_control_normal_holo_dark.png b/core/res/res/drawable-mdpi/scrubber_control_normal_holo_dark.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..2fc609b0383ccb7f89ad78afeaaaa2037ce6b3ac
+GIT binary patch
+literal 491
+zcmV<H0Tlj;P)<h;3K|Lk000e1NJLTq001BW001Be1^@s6b9#F800059Nkl<Zc-qaE
+zF>-=H6ox@4#1sx=Iy%SETWA&Am=j3JIYL7T7ATD;$T{Q~8BgF5$lJ`nGdl$3fxu>G
+zzCvW*|Fb;a?lX*rqbLfK7y%2&-=@*WfT$1}6E5Kqb7BeRxaQ&>s}nO2wuvdRBHoCA
+z2#JI^fdtnA+_S<QyR{K4>4aDidm<uIBC8?Ay?e|RF-C2~#d5CkWLZl-5yNGhfcT8q
+z5%Ck^k{GdOwI-A&7ZZ*hh)YDQ_lGNigqvW=;ts{tl~_Z=tTJFDX~G`FB_TBIs;8eK
+zbF-e=L(5bRSon6M0SrXYvQz_O6p)k|<V;+MZ*al2j9Djy)>vJB7gdZC;ET8wf5#2~
+zabg6}H07t~F_Z6nM_e^=W+tQe`$@up*h~(LiFr{!az>m3G)FQ4m)KP5CSDl^u8cS*
+zXj-a)qb>vT6(qV|f%YWS`x&AZIK;MLA<C6Pls7CyLd*GArC4r8zLw2M`*vJ9kZiOZ
+zNJ>Ytj~<R>JJ#V8CSGA;*h6W>N^G9YiLmjpykz19N#nO@O#If3$%EEx%V^EEowR0m
+hnp0=c=5&bm{0Ewn6vzmG#Y+GH002ovPDHLkV1iXK*DwG8
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_control_normal_holo_light.png b/core/res/res/drawable-mdpi/scrubber_control_normal_holo_light.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..efc97e165b3cddfaede1b5030cc6e340f733eb59
+GIT binary patch
+literal 604
+zcmV-i0;BzjP)<h;3K|Lk000e1NJLTq001BW001Be1^@s6b9#F80006bNkl<Zc-qZZ
+zJ8r^25XDXkLJEYEE?tC@ivLGKLf{74Bn5R+atst2N}%A=aDtozA0y%f93gqn8Y4Rn
+zcnvnj(n#yw*?DhwXJ=;;iQu0G(FcQp-s|<QC~UJ&#v=JN0vU#pY&M&jLZR?btJNOs
+z_4*TqZT4}DI@Aq|j0S_(l}aU@&*z`3)oQ0yD)sR{giOli@`A!P`#44&>T(X}o<c;2
+zkrV*3#bWUt?GXTG_+K6p>QI++IF~l$c!Gg*J7KKFmHC106U_ajja)952|_~0x!z&&
+zD~ybf1$W4pwrEp@gtc-`0P}eW;P$c1;Ttc0JE8HsxMd-&+_MvMq^W-$lO8KhGmHS-
+z_6gd~%I)y1J}sWRj8f!ArCqzgz#(^c6g2^25KDs9Zu^rGWM+znR**I1TVySLDh@d#
+z7BP3*FL%DL2>u1xLVo_pR>o9F^oeO7gU&dv=zOa^;7$@N6=x)-btU<d@i9T?RDpnb
+z0NfT+fxwiQ)+<V9;EN^?iywiF0)dT!odq#1N3;om)jSpgjw6`Fas;tE;U!$dM5EET
+z0jqAnKx8@skr^Zq5sR3vP>kqwwoptgS17h0BPe{Ffq?fhx`gN0nUJ(&Nl2V28I<3`
+zPRW?&iRbGo>G(ZK#F3P`b^_6=ePUY9Vx^_Jat{e)F1K_V-j1M!iQK583lmRiCUK(c
+qSDH~LtkTR=oHBZyyEu)!JpTon!)ySBhQbQ~0000<MNUMnLSTZYEDz%V
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_control_pressed_holo.png b/core/res/res/drawable-mdpi/scrubber_control_pressed_holo.png
+deleted file mode 100644
+index 61fa143e0e3c6b2cdc1a4165a9addb2d7c672112..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 703
+zcmV;w0zmzVP)<h;3K|Lk000e1NJLTq001BW001Be1^@s6b9#F80007pNkl<Zc-qC6
+z&uUXa6o(^Z(bi47YN5ftk!_zrNV7=NeS``sq)kz1*P$AslvdHcg>_>QA%UdrB7wFp
+z6x<l1HrL;gPrPlD+_}lUIPk$_?woTbGjsk-A`!BAo_9-3iCJ+6tUqbr5^*&tpAdIN
+zSsaR*I05Uw<J+RmjneSE$cdKsuXV*Y@dd2^!}q;~%=|cplj5Feh+m>7j>St+6c0oJ
+ztiLW^FsFx%$!1MgSmV>8#6SHh>f))$h;#rM=GKwzqH8*g@wehqbVP;iOozl|o}<Hd
+z<REYnY<mggU+JgEq=c>>{p7F(WZAL~lUE{GzzVuL=*|wi?G4VY5`p3CRM6e%>m3@*
+zb93t>p1I4NsAD7FFUYhwr|lSw|79B+tt-JwKb8m}O-EO=f3q)+#0RnGxN8|~SX=VP
+z_A-OJ4oV)0bMIz56AvBacbQ-QlRHQ(huqL&fUw<@3vX~c!;^;TC}PWOPT2zHxEvPG
+z*8+rJd%<llK*t)k%;uaeU_qRcR0;vYpBxr&6riJkEwj0hAfKNwc>jMaU^c`Nym45-
+ze%K=jdkH@eF@EmgjyEo$-wmq{ZuEG-A}$==uzJM}i3Q6HHXIXB9*_74uNZSlObu);
+z`y-(hlx@P~R*a!|3max@@_Ig4r4EQQ8P%|{+AkZXh|`ubcVbw;GjyAc)S#LmM|B%@
+zL9*d1NOD0X*(T={RY|ttE6FwkD`bk&0|Yu0mg5wq-+e{t%&28~Eks#vTmA$Ye_1{=
+z%EKhbrMcu^G<kdsdYDw1(?h07d`OP-LQ0{e9q=^k`o6bu>r~W_(?wkLJzIPVHDdb?
+l<=sS_uVl*|x1)NV{|21?_Hf8AXf^-<002ovPDHLkV1mNlNUQ(=
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_control_pressed_holo_dark.png b/core/res/res/drawable-mdpi/scrubber_control_pressed_holo_dark.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..61fa143e0e3c6b2cdc1a4165a9addb2d7c672112
+GIT binary patch
+literal 703
+zcmV;w0zmzVP)<h;3K|Lk000e1NJLTq001BW001Be1^@s6b9#F80007pNkl<Zc-qC6
+z&uUXa6o(^Z(bi47YN5ftk!_zrNV7=NeS``sq)kz1*P$AslvdHcg>_>QA%UdrB7wFp
+z6x<l1HrL;gPrPlD+_}lUIPk$_?woTbGjsk-A`!BAo_9-3iCJ+6tUqbr5^*&tpAdIN
+zSsaR*I05Uw<J+RmjneSE$cdKsuXV*Y@dd2^!}q;~%=|cplj5Feh+m>7j>St+6c0oJ
+ztiLW^FsFx%$!1MgSmV>8#6SHh>f))$h;#rM=GKwzqH8*g@wehqbVP;iOozl|o}<Hd
+z<REYnY<mggU+JgEq=c>>{p7F(WZAL~lUE{GzzVuL=*|wi?G4VY5`p3CRM6e%>m3@*
+zb93t>p1I4NsAD7FFUYhwr|lSw|79B+tt-JwKb8m}O-EO=f3q)+#0RnGxN8|~SX=VP
+z_A-OJ4oV)0bMIz56AvBacbQ-QlRHQ(huqL&fUw<@3vX~c!;^;TC}PWOPT2zHxEvPG
+z*8+rJd%<llK*t)k%;uaeU_qRcR0;vYpBxr&6riJkEwj0hAfKNwc>jMaU^c`Nym45-
+ze%K=jdkH@eF@EmgjyEo$-wmq{ZuEG-A}$==uzJM}i3Q6HHXIXB9*_74uNZSlObu);
+z`y-(hlx@P~R*a!|3max@@_Ig4r4EQQ8P%|{+AkZXh|`ubcVbw;GjyAc)S#LmM|B%@
+zL9*d1NOD0X*(T={RY|ttE6FwkD`bk&0|Yu0mg5wq-+e{t%&28~Eks#vTmA$Ye_1{=
+z%EKhbrMcu^G<kdsdYDw1(?h07d`OP-LQ0{e9q=^k`o6bu>r~W_(?wkLJzIPVHDdb?
+l<=sS_uVl*|x1)NV{|21?_Hf8AXf^-<002ovPDHLkV1mNlNUQ(=
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_control_pressed_holo_light.png b/core/res/res/drawable-mdpi/scrubber_control_pressed_holo_light.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..18691b89fd6490c68e38946f7bba8486922146b3
+GIT binary patch
+literal 814
+zcmV+}1JV46P)<h;3K|Lk000e1NJLTq001BW001Be1^@s6b9#F80008@Nkl<Zc-p;J
+z&1zFY7>(e<pN+06SlSoJe^Nqrc>-&nL1<kxx{uI;3biQ~+I6Uvw3JrSzJ+z8h|oZy
+zT_j+2q0o&Xt&N@|C*h{K-kF=;7&y%2-kI-w_nYr;LLvXZ3#nA<N;n)I!8k^6p3P=2
+z^Id3Izg#YNDV<K=0%0kcOzr{uz-NK;H++XRlUy4ZaV!?Q3Bh>~)PdhZ3ph$765k2V
+zfn&$}I`?qzdA|4}gx`U%Dun&Q*akk~*(UxkU_K8Ngn2xBf^mauxK?|ru*fWB`67?U
+z<JYjcs4qPMD!?+x?_!+xg4Qf+&xvFdDbt!9+P}u8Q=p0Ya|q3wh+P!PWA8d;$RfK&
+zC1@&rImv%$K7CFUC5uN`^gIrpmrT~w#+d*Vn2{{XY?0%i-cG0CxzX$a5cfbb=@V7g
+z=)i(|^4!WGXKv#YluZtD^(7g_Ih|!SXmW=YR^<!zo@9j=x0OI@HlfBO1MC3r@&6sL
+ztz=~rqBU}n)0x{#Qeex1{1I^I$a)=o0l`BHOKeGj(%;&_!lK;XQik&)r=NUvA@3>y
+z%o=1YDAM-G9h#V!xS_0dga>m5?O%G3cd%_xU{1B8LhcaEHjak}Dk=rT=8q-?<QHBa
+zQ6QH%$9V)}EU6f&z=Qv;KqiwJ@o@yNEEL%Bbp(E$5aTxw1rAN&*yn_2!mw-+MvvW;
+zU~~XBVOZ`7L;mn!N`k631xS`)M0_Cd|An5}6sD@Urn;Gs4J8CLl!{k|n2J}#(NGiH
+zQ;hDb4;W@KV)J@RuD)s*jYdb6r&%)BhG2nbl3gR0Yfm5#J|03tve;=z$YE;9mQ*r>
+zYRMKIE!mQ>LsnC|s|`(@-TI(SDfeRjv(uDDB9ZHZw&nY_Z8=R2vZvb9ZOg66oyQ@c
+zs3|(yns0bqOv+l*)}9*kgYS#U+327Ue0{@kHEVU=b1g#+b!If^%jqOT6a;T+VvMY4
+s2QoM7$r@X&Krg3m*K=6qYEaknKh67l(Thhh-v9sr07*qoM6N<$f)Q_jE&u=k
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_primary_holo.9.png b/core/res/res/drawable-mdpi/scrubber_primary_holo.9.png
+deleted file mode 100644
+index a4ab0a1e395fa3715fd4d3fa80cee3a3e26ad47f..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 106
+zcmeAS@N?(olHy`uVBq!ia0vp^JV4CH!3HFy_x^nYqzpY>978H@B_}jA{C7#(k(6|>
+z{#QnVLgeB9|Nn~%G*2`YVAZ(fFl#bfyv+pBLKk&AhV@B%&o5TusR3$c@O1TaS?83{
+F1OPMXA+rDg
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_primary_holo_dark.9.png b/core/res/res/drawable-mdpi/scrubber_primary_holo_dark.9.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..a4ab0a1e395fa3715fd4d3fa80cee3a3e26ad47f
+GIT binary patch
+literal 106
+zcmeAS@N?(olHy`uVBq!ia0vp^JV4CH!3HFy_x^nYqzpY>978H@B_}jA{C7#(k(6|>
+z{#QnVLgeB9|Nn~%G*2`YVAZ(fFl#bfyv+pBLKk&AhV@B%&o5TusR3$c@O1TaS?83{
+F1OPMXA+rDg
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_primary_holo_light.9.png b/core/res/res/drawable-mdpi/scrubber_primary_holo_light.9.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..a0fe3657d62c0afd9a6452c27cf58520af81e248
+GIT binary patch
+literal 107
+zcmeAS@N?(olHy`uVBq!ia0vp^JV4CH!3HFy_x^nYq>MaW978H@B_}jA{C7#(k(6|>
+z{#QnVLZow4)GekYgH3J!k0f-NOnA2Bpg4butIWkteulibGVz{Q0wCQCp00i_>zopr
+E0B08?HUIzs
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_secondary_holo.9.png b/core/res/res/drawable-mdpi/scrubber_secondary_holo.9.png
+deleted file mode 100644
+index 65037ced66806789b3177be2b5b3325e92008a35..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 107
+zcmeAS@N?(olHy`uVBq!ia0vp^JV4CH!3HFy_x^nYq>MaW978H@B_}jA{C7#(k(6|>
+z{#QnVLgeB9|NrxL9y}pc(|J%NQ{k*<v%cJkE{jFN@(le(%dI!G{#^;w&EV<k=d#Wz
+Gp$P!2)+F2j
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_secondary_holo_dark.9.png b/core/res/res/drawable-mdpi/scrubber_secondary_holo_dark.9.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..65037ced66806789b3177be2b5b3325e92008a35
+GIT binary patch
+literal 107
+zcmeAS@N?(olHy`uVBq!ia0vp^JV4CH!3HFy_x^nYq>MaW978H@B_}jA{C7#(k(6|>
+z{#QnVLgeB9|NrxL9y}pc(|J%NQ{k*<v%cJkE{jFN@(le(%dI!G{#^;w&EV<k=d#Wz
+Gp$P!2)+F2j
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-mdpi/scrubber_secondary_holo_light.9.png b/core/res/res/drawable-mdpi/scrubber_secondary_holo_light.9.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..7304b70b1ad56834a1a7044b6e3e123dcf8d4d3c
+GIT binary patch
+literal 110
+zcmeAS@N?(olHy`uVBq!ia0vp^JV4CH!3HFy_x^nYq)a_s978H@B_}jA{C7#(k(6|>
+z{#QnVLS%DiXQ!f}#JYngPMnx7;j@oz(p-}tj~dr>C|iAGWUy#*pRJ;6^&MycgQu&X
+J%Q~loCII`{B`yE}
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_control_disabled_holo.png b/core/res/res/drawable-xhdpi/scrubber_control_disabled_holo.png
+deleted file mode 100644
+index 3854e19e15ba5c59e83415590a50c1eba544186f..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 660
+zcmV;F0&D$=P)<h;3K|Lk000e1NJLTq002M$002M;1^@s6s%dfF00078Nkl<Zc-rk+
+z%}&BV5autC0CF)vfCC0X;p%~)jZH)g@~1DNuZSLe8Xkb?t<EN26N88lX4_qvFZmKe
+z+ufPz?##|~5($AoAP@)y0!;{lAVVw?%fv3RPrN1i#0BW%zdr6M<C%=jisy(9(Ibwb
+z=;NMT;295N<ZM#Bh_^U9K;geQ!<a>r6;DIR5u@Up9AS>MNs1?lXGB+{;+u3aXVL@%
+z)HT2LU8|uUr{XDM^FZgu%>`sg#bJOZv!gr4K{lh_^R<}Y{I-=)i^M0;B&C@4{60RR
+z6h)|W4OISnbV%zoK-Xa9Lw0qZ@J1FGV5H^5Xvy0T+0&8OOf53Nlr@2(!8#TxAF{)l
+z&wCacz+<T=!1;|WG{Bg}8PXsX!%lsNoDM4-2IyI+JYO_GosLteC*m`4NnC^K_Y1CZ
+z&ei8Iz>rxerRXa7i50GK&NbvPzyq^T%iwpsGtV{QFu<HysPzs5d~iEL4g)Ms-2fA2
+zq26rU0w?bTb%a5s=qr}|Csu{AVbHPoAmqqVSdt;0Lg<a9>2R8>CeXIf0Bz2SP}ahd
+zSeCmk*b7dzC<+4<(8^-E@=C^nu5Sa*NyPp?BEpry%3o{m9>KZ5H+1Po(?diPRW;NJ
+zj^P|KMb|PzlQj$pjY@__TrDz<m{-CaGDP1Zv#}lgnD%_tlvX))Mi@k>{6Jf*KXOZ`
+zoZ((m`W*HYJ4Q81ZZSk2h8Q!awrb40O+CZvtMUc<cKidK<s8qr7{ltW@f23YIk82&
+uM6Q0fK@ZnjxHliGcNYi*0)asA@9_ny^K&@Nx*PQX0000<MNUMnLSTZw$1rvP
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_control_disabled_holo_dark.png b/core/res/res/drawable-xhdpi/scrubber_control_disabled_holo_dark.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..3854e19e15ba5c59e83415590a50c1eba544186f
+GIT binary patch
+literal 660
+zcmV;F0&D$=P)<h;3K|Lk000e1NJLTq002M$002M;1^@s6s%dfF00078Nkl<Zc-rk+
+z%}&BV5autC0CF)vfCC0X;p%~)jZH)g@~1DNuZSLe8Xkb?t<EN26N88lX4_qvFZmKe
+z+ufPz?##|~5($AoAP@)y0!;{lAVVw?%fv3RPrN1i#0BW%zdr6M<C%=jisy(9(Ibwb
+z=;NMT;295N<ZM#Bh_^U9K;geQ!<a>r6;DIR5u@Up9AS>MNs1?lXGB+{;+u3aXVL@%
+z)HT2LU8|uUr{XDM^FZgu%>`sg#bJOZv!gr4K{lh_^R<}Y{I-=)i^M0;B&C@4{60RR
+z6h)|W4OISnbV%zoK-Xa9Lw0qZ@J1FGV5H^5Xvy0T+0&8OOf53Nlr@2(!8#TxAF{)l
+z&wCacz+<T=!1;|WG{Bg}8PXsX!%lsNoDM4-2IyI+JYO_GosLteC*m`4NnC^K_Y1CZ
+z&ei8Iz>rxerRXa7i50GK&NbvPzyq^T%iwpsGtV{QFu<HysPzs5d~iEL4g)Ms-2fA2
+zq26rU0w?bTb%a5s=qr}|Csu{AVbHPoAmqqVSdt;0Lg<a9>2R8>CeXIf0Bz2SP}ahd
+zSeCmk*b7dzC<+4<(8^-E@=C^nu5Sa*NyPp?BEpry%3o{m9>KZ5H+1Po(?diPRW;NJ
+zj^P|KMb|PzlQj$pjY@__TrDz<m{-CaGDP1Zv#}lgnD%_tlvX))Mi@k>{6Jf*KXOZ`
+zoZ((m`W*HYJ4Q81ZZSk2h8Q!awrb40O+CZvtMUc<cKidK<s8qr7{ltW@f23YIk82&
+uM6Q0fK@ZnjxHliGcNYi*0)asA@9_ny^K&@Nx*PQX0000<MNUMnLSTZw$1rvP
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_control_disabled_holo_light.png b/core/res/res/drawable-xhdpi/scrubber_control_disabled_holo_light.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..e9bc6a41924e9e8df5eb0990c01356490a207846
+GIT binary patch
+literal 783
+zcmV+q1MvKbP)<h;3K|Lk000e1NJLTq002M$002M;1^@s6s%dfF0008kNkl<Zc-rk+
+z-A-CT5T>+g6Z&)0*ap3zsVF884hJ}3Nlj>rttfiOQ|LqRV%Up5jSpbzoz7>5#1KNj
+zGkbO?%p?<j&hF0d&g|@&T+YD2z`(%3z`zmo`~6qdYV}<l$6M`oyV7Vh62d<H9yFWH
+z5fI<;AD&?h#$pcUsug@V9KMO7XrBZ;YPDLwS=jRxal~_uum;vrBRDL_mOfoW;H8MQ
+zuqM_HR`Bt7{E`JfmJ)n{B91`=v_g{oMWs@CpCn1omEiLTTA&Hq-leC2we8aC%e(=!
+zeafCE21;uNH)%u$DS;OsmM=*Lx-<cjm5|+@rxaE6Z23iLvzSRtD3{A0eC+vEVgh(`
+zp6arU_Rq-<PE#auaHzu15Ij0N;f3h>i?)K36Qc&}&yWJ*fp}p<sb;7}0pL}%fFifr
+z(<1znt*|Fn&!a5WrU39Pa-V>J!nL_71%PK#K>A=<uh%~XcIsRCbO_#4D*zEyq409q
+z0QYpl5&D8YFA1lFw~Y9H#m^)IVUk(_Q55|Uw#*gb4dMM9-taRqTHrmk0%)N>!U~u!
+z5PpXLglU~f#DFtlrf!!g;J<Vrl<<JjrYqn?I0*h#wFNdl2s%oG5cHZ|{*JvO*fhAW
+z^&kY^?I^s-#gNF&5H1;MvF{qoVX+HRQoyc457?Ew5PhxfN(?-U-V16fi^VTRIUBs?
+zwwBPXKLD>z-VJCt6Nu#gWf_5p90qLtZ_c|%xZ`UOqU&eYLsYBPK0CN4NE7tVz*D9z
+zGql%sLP(9^0lau=kpW?<xV(7+XtVJ7oG*au`G^Ui$!_l-kauYxb~D`bU1z!exiFbb
+z@;HB!Wqvs-pC5aQk>^8el$<{@7oZ5q5*lmqngumI!+0}GLFx-(50+aeZDK5UkoT~L
+z>aKC#8ih`$^D#-1ujIlpzi$6Ihv*ECF$QBX2Xk`<1_lNO1_lO>-~sr~o1@@zjR^n%
+N002ovPDHLkV1j)8ZCn5V
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_control_focused_holo.png b/core/res/res/drawable-xhdpi/scrubber_control_focused_holo.png
+deleted file mode 100644
+index 08a360eb1bc5a59a49c9be5aaddadd94b3a26a75..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 1049
+zcmV+!1m^pRP)<h;3K|Lk000e1NJLTq002M$002M;1^@s6s%dfF000BvNkl<Zc-rlo
+zTW=CU6vs=s3T#5G6oEdpC4Iv1P-CHwgpKV2S`%#_y*-&UR*muUO^m4zeh(8h-ugw<
+zegLi33&AtZf0GHJ0&`~B-Lfb7B`w+AIp@rob7p2|r=|i4B#=M?abCLJZU{^d;OM%O
+zWVA3UOhkz|ksy*F1?>M5xF(8wrhVrO$><0XgJA}dA<hu9#95+16hQ&M&ElF2?n&Yq
+z5zjkAGCYc&6b77zaV4Tm)QCE9kys}#fpz>=$2Dc#Q@}F}JTvM^M@T(x8=fWRi7H_d
+zmSpU(Sh%-}XJsWv97TjzdOeIVO(T34(TgnwqmQG7XD*_RG};Wi77Z}o?sYL{=g?c0
+zM#K9>MHOvjq-Y4aWxPmIGsF_naM18x8fbF{I*iW=Fg}X%CB|jN;a>k=G*qBN3Oa?x
+z)$^jk9I;HaT`=CJ4IOgO$+<}A3HvM>Zn<c@oFJE>lXJrX88?A(S8=)L`$a+px(OY_
+zPSp7rGVhX0V}6*Numl}r+U5yT=%-PB8Xh!Wt`2k1RnJgB?<X(;se0IWn<{iou%kdK
+zc?M=-mJb|YL05xa8hd)b<^$txYFeTI<H*2bL|4hXOk5{+h(|#DeS_H0SQ_V{dxR7I
+zF)T+fXj1GB@s{{Zd?S7ne~9n+?LD!rsjU_09#a|y2>(-9lbcLst`X0OAKk(7li0;Q
+zoHkA9o>UqJnD`jjnBXM8tHdkx^sw@mcuj0FlVJ%qgjKVD2D>wyS>N*!jhCIU%bXpS
+zVZ&(E01k+2$o@MBX;l&TKGaYR;-fmiE`K@f)2TErGWxqNUp^666m_V>hSAC)93YZM
+zo>)_C{1)+5g9G;QEEOHrU_(;H0V!nBrefpwP~NyAD#v|A9h$HqrRsnpWBffvBI8Pj
+zc*@YD$aO$_QXP<F4gnFi2O1n8D!~IchJcPFxUVS*-gYAiCh)FKwG4{V^-+TZ_S`6g
+zx+X%~%!$w;qXGz4RVP9^r@}83lc7j{FPT%}b4pWT&5I$ipm{T*6FQhhZZX<zDldlm
+zR08gDcoUIuIE3-P(DPeemzTrxhRBMhO^Un32jUA#WCt8z+Pudc^ZGVK9NZGy!1kAz
+zDn9|j=$oF}66-04S)Xl+u0m(_rl`Cv&P|5n+!ils*%qJp7bC~K8Z$j?ys7=w*u=ja
+z4PKA?<AB6@#}7zM{1KVpkksH~a^{$`y*tO`f`gKSkII%DJStoA%u(4P4ofd+JS@H7
+z$-~mj<MLLIvHm?SukgV{zRw2}d0&4pq43E}s)v*D$;<#}Ox8zJfdmprAYPY$-^>@h
+To0nV300000NkvXXu0mjfKl<Sp
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_control_focused_holo_dark.png b/core/res/res/drawable-xhdpi/scrubber_control_focused_holo_dark.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..08a360eb1bc5a59a49c9be5aaddadd94b3a26a75
+GIT binary patch
+literal 1049
+zcmV+!1m^pRP)<h;3K|Lk000e1NJLTq002M$002M;1^@s6s%dfF000BvNkl<Zc-rlo
+zTW=CU6vs=s3T#5G6oEdpC4Iv1P-CHwgpKV2S`%#_y*-&UR*muUO^m4zeh(8h-ugw<
+zegLi33&AtZf0GHJ0&`~B-Lfb7B`w+AIp@rob7p2|r=|i4B#=M?abCLJZU{^d;OM%O
+zWVA3UOhkz|ksy*F1?>M5xF(8wrhVrO$><0XgJA}dA<hu9#95+16hQ&M&ElF2?n&Yq
+z5zjkAGCYc&6b77zaV4Tm)QCE9kys}#fpz>=$2Dc#Q@}F}JTvM^M@T(x8=fWRi7H_d
+zmSpU(Sh%-}XJsWv97TjzdOeIVO(T34(TgnwqmQG7XD*_RG};Wi77Z}o?sYL{=g?c0
+zM#K9>MHOvjq-Y4aWxPmIGsF_naM18x8fbF{I*iW=Fg}X%CB|jN;a>k=G*qBN3Oa?x
+z)$^jk9I;HaT`=CJ4IOgO$+<}A3HvM>Zn<c@oFJE>lXJrX88?A(S8=)L`$a+px(OY_
+zPSp7rGVhX0V}6*Numl}r+U5yT=%-PB8Xh!Wt`2k1RnJgB?<X(;se0IWn<{iou%kdK
+zc?M=-mJb|YL05xa8hd)b<^$txYFeTI<H*2bL|4hXOk5{+h(|#DeS_H0SQ_V{dxR7I
+zF)T+fXj1GB@s{{Zd?S7ne~9n+?LD!rsjU_09#a|y2>(-9lbcLst`X0OAKk(7li0;Q
+zoHkA9o>UqJnD`jjnBXM8tHdkx^sw@mcuj0FlVJ%qgjKVD2D>wyS>N*!jhCIU%bXpS
+zVZ&(E01k+2$o@MBX;l&TKGaYR;-fmiE`K@f)2TErGWxqNUp^666m_V>hSAC)93YZM
+zo>)_C{1)+5g9G;QEEOHrU_(;H0V!nBrefpwP~NyAD#v|A9h$HqrRsnpWBffvBI8Pj
+zc*@YD$aO$_QXP<F4gnFi2O1n8D!~IchJcPFxUVS*-gYAiCh)FKwG4{V^-+TZ_S`6g
+zx+X%~%!$w;qXGz4RVP9^r@}83lc7j{FPT%}b4pWT&5I$ipm{T*6FQhhZZX<zDldlm
+zR08gDcoUIuIE3-P(DPeemzTrxhRBMhO^Un32jUA#WCt8z+Pudc^ZGVK9NZGy!1kAz
+zDn9|j=$oF}66-04S)Xl+u0m(_rl`Cv&P|5n+!ils*%qJp7bC~K8Z$j?ys7=w*u=ja
+z4PKA?<AB6@#}7zM{1KVpkksH~a^{$`y*tO`f`gKSkII%DJStoA%u(4P4ofd+JS@H7
+z$-~mj<MLLIvHm?SukgV{zRw2}d0&4pq43E}s)v*D$;<#}Ox8zJfdmprAYPY$-^>@h
+To0nV300000NkvXXu0mjfKl<Sp
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_control_focused_holo_light.png b/core/res/res/drawable-xhdpi/scrubber_control_focused_holo_light.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..63a3cac82e5d11d89461002c9977579441624226
+GIT binary patch
+literal 1260
+zcmV<I1QYv-P)<h;3K|Lk000e1NJLTq002M$002M;1^@s6s%dfF000EDNkl<Zc-rlo
+zM{g5B6vwec2@oU%3H=aAI0dCR#U!~T!U_;VksustCnQ7@q8#%r5DEvr2NEFa7omIr
+zdK3JA*0Z%h2-%tOdX0Car(LgiW?q}uW_H=KtYs~0S<6}?EoYDi=H}*pfy(p9d;bm5
+z5Y;j`IJly_yL;8d#6+v^*8o#fQ)_|BZ~o&Q-lb23A&p10h*>^6JG&CX#>dCk>Gyiw
+zw~vjDZ5kdP-ZC&Sux)g7bUVO3&-jmbc$Yr(Wemn@1ZI>8M|z!|ovjcc;x<5>o^^@9
+zo<gCpSND^GDcv6s95y(>GydZp-ldN*X#-<1rfEhh8BvxvDh#qhyraLrzq7Zux2XG)
+z;9!K<B>{ct%NUHsn5Ids5sgTN)LVLbdQj6g)K}8mWs*J=m*~HNjfH0HvL({SoMtEL
+zrVY7@)Fq+ylGF|%S9Fnf9Iapu=3>r>HstC;JVt6{WMrd|*)8Pu)r#;17_pBzncKWa
+zqD;tPj3kA%tV<!(TT7`grVTcC2e_Dl%q1duCM*_<n>DF$D9j{Hd<15|0bIbT)|yaN
+zd*gZ`q@nXMkT3z9YP}p<FgmO|RIkpG|3eeN3EaTZyhB(&kK4iWn!!7mBI2ty0o=gR
+zTx349yKBS!Bx&tkyaPCbYsjULw*;mgADmX=BQ~LE!BT4oEhxJ@LQtZxG^+kWO95Oh
+zneujxc}qgt2}RRRd;|!^+riyS3s^^Rl4L}1D3FAX3=IvP()E&lUk8NjCBbRUaWupn
+z;0n%`JS}%te{ylsQ4Ka6Xnmg7^^xGE;H}_`;H%)BJ$oX!5Mr*rzP=G~hX&VWkk<gK
+z$;nAeJ*9p^a9j5u1V8=(ANB6MwB&^6oF%J8tZ`iiEoMl%e2ky^9@q80N&3eU;hW%r
+z=AQM;9J`>wB`_*me@atU$?=K$?!+X%$^_vs?-Lz@yOrW%dxM-6C%vpc#toHrAifOh
+z&vLlt>kXhKE(6NJk7az5j+PjU{@9iH2s{@K#~cMP2@NhmQQk_`TQ$&rNA8~$ybi#C
+zH#U|F4*Q`YwjpGr!U`VSB*|$<?q4?d=F0#)#}!8{oQ4KyvCWsIGk^^XYW5!M?}k}(
+zUj}>^5w~3NfCgysVZcmNGQcW7&P%}5_I&^b;6<(`x&#6m!8aj{poln^s1dBVLEEdF
+zbTop;g!r=n40urwHy9)kBC#Qu@gV+_s|T=fc+@oz3Kj}$oVzZ@P{?Ea?)ikmN~rd@
+zhQh&;Arcz(e;9`e5N}cBNspSqv`;crHH0D3VVGc=@M#GQ_-v9tS?_eXS`eYQ5U3h-
+zQSemvugpb$H+XMh^9!FfAG#n?lad%o66G&KWijI>U__ruTS=^16tzvzhAE0-{lVG0
+zC>kw``x?U}%i<N|7i!12sW(Oz+8QgRSo)<}Y>hSj=4iG(zR&>)4ke`JfP}7tNgR-9
+z`Xe&gA*p{HlPe`@?dy3=E;}f>*il)cuv#6JW$ZK^m0k3(w4}5%)M07HO6y^1=i~BG
+zrkH9s^l|xEA52iG{r!Upo;CUh6R|#-!F5$WnK3u^-+VH&7&Dsgqp7TAEo)gzb^8hO
+Wb{s>74Pcl60000<MNUMnLSTYkaZ1ks
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_control_normal_holo.png b/core/res/res/drawable-xhdpi/scrubber_control_normal_holo.png
+deleted file mode 100644
+index 9c4371d02792e194a1dc1c14faaacbdbde2e3565..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 1321
+zcmV+^1=jkBP)<h;3K|Lk000e1NJLTq002M$002M;1^@s6s%dfF000E=Nkl<Zc-rlo
+z&rcIU6vu_q#?nfQp%Nj)@Z*3cfErE2A6$To=p8PSh$py-k#d6rco6wzMA4)tJt-#o
+zPr(0RqW^*%fyDZTd^Xu`y6r+|+TE5-zL)KG=6&DHy!YnKn{(&R9`jE&o2>)&f{>uW
+z1tGpU{yylWEwW+3c|lyzBxn}22vUMeAjP|8zKQdnu%(nBjkFRtB8Ul+f>uF?pj&WN
+z&?mSdxFxs^Zt<><Z@T$UD{aJRGvv#e0r3V#ErH;j5E>FZ7EB4|1WSTd!Mb1@tn+S(
+zZ>IRq5N&kQW`aH%e4z*jaWztHf?mNL!K7e8@J6s@BkL7g{8zQ{gf@HWBUy1pu*M^-
+z*~?7bVZpRu;}nF8VS~1Z=}Yx_0U7EmG3t#Nt{%ZX!E?v7HidQix<}tihG<!41LVV4
+zX*CrG1mmpV?J{GPz6X#cZd3`7k6?(d2<~FAwkkm0ZYPusgUFOX#yV5vm7nesj0%=3
+zNZg4fWa`2|>QjP)yz<Xuf)yW;x9}R-x=}*7WF^?vd;;x`8M5#?J;g(0O_XdCXduq|
+z8ujVO=bH(m$b4)VOY!rKSlGKhTk~FQ!XUCoPaG%M)_n_ZW-dVFExbhbmJ=IArhXHF
+z#(0HYT`4Yd91cyMmja`Ip6PR+czipcctgZ^8BTRxM?XotJsV*17G~j+EIJDq{V1b9
+zQl{9x9D9dhI2E1+BpecKJEyCFyoG5vDQ=-c3W$(+P<!vqDpJ5EoD{c6A-^9Z`!Z=z
+zn2&<bf*rvRu*18L2K$|aTP$x}!1Pa&f?6;n#8<&@!C%3F;2${Po%-#Yp}rU3mdv{h
+zi1}N|!|8T?8NsgLC|mqF;@gY?mpBB+u$%AiAQ`!(nfxzC+UxU=|70`=Mvvi`>kUvq
+zoUP=PX3g)Oki1<9yP9R0f@9pNfO^8ktD58fZyu+8q2-{{Cd|RHDaR0E051yqHSYR8
+zVbn@}e$$o?nU>*rF~<-R{;FNmO~IO`&b|otH7H=8wsgp}2FI41uowlTIHG!|sWau<
+z4>c&@khXNl^bU?GrvkzpQmS*h51Kmrc}nA#&lvvHB+~~tUdnNW%m7OP?`u^7))LUQ
+z2l%dW34Axb1nfp|wHA$Fh`fKzx<Pv&l-3w{>}Uvtb_@hU31=W=g~BR<_)K&7xmQ9c
+zyr)@~XK;+?+Y8k0W+=~gSod*vhSBu89o{pr9bR?a4m%8?N*XL0N=m5p{0GZ^XiJD3
+z^6ro3HE+iv+?w4IBKDNn(<)4fJuR3Lb0kI8S>W3$N{YUPlY3G$Pg;DYiWD&8H7#x(
+zjI>wT!N>@lqD7C#YWip_&*A8U3RQsVbbSvz9g7t>9-pYG<8hY)iF5!JkUn*Rgrh{J
+zoip}V0V2PQ+iQbEeJvG9t!OEd3UHa+n5|4sTdkl~D5(s}BcINM6<eWXv&m{vt5o)t
+z&(^$EDyx@#kz(nz4~nJJ$YQQo+NE4xd57!732PM!awc$f?Z_0)mg&xbbzvffT~N{1
+zi!xrAn5Bfzx-ijL_Uki_D>KU9USl237^*MYq}XYM*uIUv%X?*}$fc=vww;5TFHKF-
+zrhhI?xhNu9;M$zZ$j;lY&22dRw{>l9o^Rc*%|(4f{Dc=LdziZY1ujnZ^G#2nE>50Z
+fojtoe9o*+XnD1Kfy+}B_00000NkvXXu0mjfjiZ1<
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_control_normal_holo_dark.png b/core/res/res/drawable-xhdpi/scrubber_control_normal_holo_dark.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..9c4371d02792e194a1dc1c14faaacbdbde2e3565
+GIT binary patch
+literal 1321
+zcmV+^1=jkBP)<h;3K|Lk000e1NJLTq002M$002M;1^@s6s%dfF000E=Nkl<Zc-rlo
+z&rcIU6vu_q#?nfQp%Nj)@Z*3cfErE2A6$To=p8PSh$py-k#d6rco6wzMA4)tJt-#o
+zPr(0RqW^*%fyDZTd^Xu`y6r+|+TE5-zL)KG=6&DHy!YnKn{(&R9`jE&o2>)&f{>uW
+z1tGpU{yylWEwW+3c|lyzBxn}22vUMeAjP|8zKQdnu%(nBjkFRtB8Ul+f>uF?pj&WN
+z&?mSdxFxs^Zt<><Z@T$UD{aJRGvv#e0r3V#ErH;j5E>FZ7EB4|1WSTd!Mb1@tn+S(
+zZ>IRq5N&kQW`aH%e4z*jaWztHf?mNL!K7e8@J6s@BkL7g{8zQ{gf@HWBUy1pu*M^-
+z*~?7bVZpRu;}nF8VS~1Z=}Yx_0U7EmG3t#Nt{%ZX!E?v7HidQix<}tihG<!41LVV4
+zX*CrG1mmpV?J{GPz6X#cZd3`7k6?(d2<~FAwkkm0ZYPusgUFOX#yV5vm7nesj0%=3
+zNZg4fWa`2|>QjP)yz<Xuf)yW;x9}R-x=}*7WF^?vd;;x`8M5#?J;g(0O_XdCXduq|
+z8ujVO=bH(m$b4)VOY!rKSlGKhTk~FQ!XUCoPaG%M)_n_ZW-dVFExbhbmJ=IArhXHF
+z#(0HYT`4Yd91cyMmja`Ip6PR+czipcctgZ^8BTRxM?XotJsV*17G~j+EIJDq{V1b9
+zQl{9x9D9dhI2E1+BpecKJEyCFyoG5vDQ=-c3W$(+P<!vqDpJ5EoD{c6A-^9Z`!Z=z
+zn2&<bf*rvRu*18L2K$|aTP$x}!1Pa&f?6;n#8<&@!C%3F;2${Po%-#Yp}rU3mdv{h
+zi1}N|!|8T?8NsgLC|mqF;@gY?mpBB+u$%AiAQ`!(nfxzC+UxU=|70`=Mvvi`>kUvq
+zoUP=PX3g)Oki1<9yP9R0f@9pNfO^8ktD58fZyu+8q2-{{Cd|RHDaR0E051yqHSYR8
+zVbn@}e$$o?nU>*rF~<-R{;FNmO~IO`&b|otH7H=8wsgp}2FI41uowlTIHG!|sWau<
+z4>c&@khXNl^bU?GrvkzpQmS*h51Kmrc}nA#&lvvHB+~~tUdnNW%m7OP?`u^7))LUQ
+z2l%dW34Axb1nfp|wHA$Fh`fKzx<Pv&l-3w{>}Uvtb_@hU31=W=g~BR<_)K&7xmQ9c
+zyr)@~XK;+?+Y8k0W+=~gSod*vhSBu89o{pr9bR?a4m%8?N*XL0N=m5p{0GZ^XiJD3
+z^6ro3HE+iv+?w4IBKDNn(<)4fJuR3Lb0kI8S>W3$N{YUPlY3G$Pg;DYiWD&8H7#x(
+zjI>wT!N>@lqD7C#YWip_&*A8U3RQsVbbSvz9g7t>9-pYG<8hY)iF5!JkUn*Rgrh{J
+zoip}V0V2PQ+iQbEeJvG9t!OEd3UHa+n5|4sTdkl~D5(s}BcINM6<eWXv&m{vt5o)t
+z&(^$EDyx@#kz(nz4~nJJ$YQQo+NE4xd57!732PM!awc$f?Z_0)mg&xbbzvffT~N{1
+zi!xrAn5Bfzx-ijL_Uki_D>KU9USl237^*MYq}XYM*uIUv%X?*}$fc=vww;5TFHKF-
+zrhhI?xhNu9;M$zZ$j;lY&22dRw{>l9o^Rc*%|(4f{Dc=LdziZY1ujnZ^G#2nE>50Z
+fojtoe9o*+XnD1Kfy+}B_00000NkvXXu0mjfjiZ1<
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_control_normal_holo_light.png b/core/res/res/drawable-xhdpi/scrubber_control_normal_holo_light.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..cd6738944c6044f38f051bdfe9d0945794828a76
+GIT binary patch
+literal 1555
+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
+FV1k0K*arXr
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_control_pressed_holo.png b/core/res/res/drawable-xhdpi/scrubber_control_pressed_holo.png
+deleted file mode 100644
+index 5a9b03798a1f9ce4d19c46ff1f3523484a9356f0..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 1397
+zcmV-*1&aEKP)<h;3K|Lk000e1NJLTq002M$002M;1^@s6s%dfF000F%Nkl<Zc-rlo
+z>q}Ho5Wp+R>~r?5^;_ZRN-3g$q&F5>nMx{U(aTm{&9tWxMnzCY_MpB-`KYX@=p|)u
+zG<skJm7CA3+Z>ps%P{xu-FxTk-di5{!LsZ<XJ+=EIdkUBnJ{6zjW=!0FpSAS2*?5Q
+zfJ4Al;5pC>{6^I0Zr}<~2duzn)U)Y9RD2q+0cZtY13!$!+YfxU4g1RUyV6sD*}!pN
+z(2#F~*tZ&Eir<u<2V4XC4gIYj$C{sNr6&PdzyV;`M&NHa$2);$paIwhlmq#Q`n(<3
+z3!DdT;WOWC`W?oxvw^f!7+?|b%0|F9z)@7T2w0sUMfhwJ`U0!=0a%hu#is)m7Q#e<
+zE}+(h!ttoZzM~dnhm~x)l~=EPJMfbcK)nq$K!FD3V-(;R+?%Il>QFN3Qhp}z&|<kd
+zqfu!qnk|-BCF3k<<!1m7n8DrxRlu4Q7(k6#iN1z2LYCy5Z)XO129%{haY`A=LR*K3
+zPe6x9=lmU@#0Sd9C_$O1PpI&scp9*nv23@`ls6lJdlQzpiW4xv_`uBhG9M~$o(^xA
+zI3e4O0roN8zRJhS$Eadfhy95vzW^8_oiwM&+q+pEnwhY9K_a`lR?@-i04PqO;j`LS
+zXE-sy9I~s6Y6@+2Q$xaLrPCZI1~|re{el1*pa5kzw`1{?&t#Gr4FOa>Mgx;n$+R;-
+zX%gnXa#9;HjNOe?;&*G3;0sEvlut)TVQx*r!h~^8(TA(dFJKJ+8TH+LV3+WiO^h>4
+z=L`@c)=~~+r;rdTxp4s)agg#-OI8a|C^Ys?;tZ9JA<h6fB!K93naSalzl;C2)27~v
+z+rWCE@q0-?m%|w#j|kBz^bcH2Q2AI>&zu#Kp_BBT#~I)d6Zv@^SUI;*4;f%J9d-!F
+zahmjdm@@!%fb|{+T?;%CNQ2)OSRLxABjgM~cTrnB4!RlmB4B{ez$TBfY@r!z&H&%Z
+zkBU7GS{>)SAdwTHut!;nNuS?215ihm?{UyQc<|}9jS1{U@~MO63_$;_b^n_I`e?`~
+zFa<_}GzDIeA8iwGJb`k8ts0iWE&&5PNY*l_BM_<<2!tdyM~(uam6}4~OCCbubDBco
+zm7D=`fdSKxdIUE^_YzzYe&Iof)c8H7zLk!-R@-57H24+RD!3iK>~K1a;s#1;JG>Qj
+zG1o1GtP&#h4DhgUav}meM$bNMsuCN<?;ha>N^;CbqEowN<r$`>%<ZM7lvp_)VALU1
+zxYX%LiM=E`mD}Y6L(G9ly%F4`C|&-B*w>#J;p9J(7GKAt#ZNjt7>SbHU?hMBh%g5{
+zjt)jLu(&|CFVGDQ?XNpJ8Z#Y^(v8gN03D9f$Zy2);iye$+%J@$(@h0aO4sPNK;k2F
+zQsnmn33?Lr(QSc58kVhd#Zi7Nkx>=pPZ@cac`BvFKqaU}Qq@vraveS|lY6SIOwLpy
+z`_Q5wI-J5n$*@J)Y?pY+tSUdXFhUfUon#x}lttn66Y)}6@+NfH6iY`0vdQtn+Xxfn
+z=r5KgKB3ZLFW-;<fR37?8tmKZR!XIzyIh_aVkr|R(3qhKv&(Lh8-<w6IAYje%=iQ>
+zPsNRqGz^vw8u72psFc)A^cAryGv-vc%0tAi%(P$*uZLuE3?{s7G*WeChS@t@H<EK{
+zN;$q8z(Qc6->%K6t@H^dsUp#au<yCRRKMRL%*5!d4P%7?7YYyHvuzmc`1|6dP32h@
+zrrcLyk~Ma9_MJ)D_r~9=v-NmJk&Dj;@9OM$3sCz5G!zL8$DRP700000NkvXXu0mjf
+DZa$I}
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_control_pressed_holo_dark.png b/core/res/res/drawable-xhdpi/scrubber_control_pressed_holo_dark.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..5a9b03798a1f9ce4d19c46ff1f3523484a9356f0
+GIT binary patch
+literal 1397
+zcmV-*1&aEKP)<h;3K|Lk000e1NJLTq002M$002M;1^@s6s%dfF000F%Nkl<Zc-rlo
+z>q}Ho5Wp+R>~r?5^;_ZRN-3g$q&F5>nMx{U(aTm{&9tWxMnzCY_MpB-`KYX@=p|)u
+zG<skJm7CA3+Z>ps%P{xu-FxTk-di5{!LsZ<XJ+=EIdkUBnJ{6zjW=!0FpSAS2*?5Q
+zfJ4Al;5pC>{6^I0Zr}<~2duzn)U)Y9RD2q+0cZtY13!$!+YfxU4g1RUyV6sD*}!pN
+z(2#F~*tZ&Eir<u<2V4XC4gIYj$C{sNr6&PdzyV;`M&NHa$2);$paIwhlmq#Q`n(<3
+z3!DdT;WOWC`W?oxvw^f!7+?|b%0|F9z)@7T2w0sUMfhwJ`U0!=0a%hu#is)m7Q#e<
+zE}+(h!ttoZzM~dnhm~x)l~=EPJMfbcK)nq$K!FD3V-(;R+?%Il>QFN3Qhp}z&|<kd
+zqfu!qnk|-BCF3k<<!1m7n8DrxRlu4Q7(k6#iN1z2LYCy5Z)XO129%{haY`A=LR*K3
+zPe6x9=lmU@#0Sd9C_$O1PpI&scp9*nv23@`ls6lJdlQzpiW4xv_`uBhG9M~$o(^xA
+zI3e4O0roN8zRJhS$Eadfhy95vzW^8_oiwM&+q+pEnwhY9K_a`lR?@-i04PqO;j`LS
+zXE-sy9I~s6Y6@+2Q$xaLrPCZI1~|re{el1*pa5kzw`1{?&t#Gr4FOa>Mgx;n$+R;-
+zX%gnXa#9;HjNOe?;&*G3;0sEvlut)TVQx*r!h~^8(TA(dFJKJ+8TH+LV3+WiO^h>4
+z=L`@c)=~~+r;rdTxp4s)agg#-OI8a|C^Ys?;tZ9JA<h6fB!K93naSalzl;C2)27~v
+z+rWCE@q0-?m%|w#j|kBz^bcH2Q2AI>&zu#Kp_BBT#~I)d6Zv@^SUI;*4;f%J9d-!F
+zahmjdm@@!%fb|{+T?;%CNQ2)OSRLxABjgM~cTrnB4!RlmB4B{ez$TBfY@r!z&H&%Z
+zkBU7GS{>)SAdwTHut!;nNuS?215ihm?{UyQc<|}9jS1{U@~MO63_$;_b^n_I`e?`~
+zFa<_}GzDIeA8iwGJb`k8ts0iWE&&5PNY*l_BM_<<2!tdyM~(uam6}4~OCCbubDBco
+zm7D=`fdSKxdIUE^_YzzYe&Iof)c8H7zLk!-R@-57H24+RD!3iK>~K1a;s#1;JG>Qj
+zG1o1GtP&#h4DhgUav}meM$bNMsuCN<?;ha>N^;CbqEowN<r$`>%<ZM7lvp_)VALU1
+zxYX%LiM=E`mD}Y6L(G9ly%F4`C|&-B*w>#J;p9J(7GKAt#ZNjt7>SbHU?hMBh%g5{
+zjt)jLu(&|CFVGDQ?XNpJ8Z#Y^(v8gN03D9f$Zy2);iye$+%J@$(@h0aO4sPNK;k2F
+zQsnmn33?Lr(QSc58kVhd#Zi7Nkx>=pPZ@cac`BvFKqaU}Qq@vraveS|lY6SIOwLpy
+z`_Q5wI-J5n$*@J)Y?pY+tSUdXFhUfUon#x}lttn66Y)}6@+NfH6iY`0vdQtn+Xxfn
+z=r5KgKB3ZLFW-;<fR37?8tmKZR!XIzyIh_aVkr|R(3qhKv&(Lh8-<w6IAYje%=iQ>
+zPsNRqGz^vw8u72psFc)A^cAryGv-vc%0tAi%(P$*uZLuE3?{s7G*WeChS@t@H<EK{
+zN;$q8z(Qc6->%K6t@H^dsUp#au<yCRRKMRL%*5!d4P%7?7YYyHvuzmc`1|6dP32h@
+zrrcLyk~Ma9_MJ)D_r~9=v-NmJk&Dj;@9OM$3sCz5G!zL8$DRP700000NkvXXu0mjf
+DZa$I}
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_control_pressed_holo_light.png b/core/res/res/drawable-xhdpi/scrubber_control_pressed_holo_light.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..f57401323fffb9717d801bb323b1e7b2825c20cf
+GIT binary patch
+literal 1605
+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
+DgB=9I
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_primary_holo.9.png b/core/res/res/drawable-xhdpi/scrubber_primary_holo.9.png
+deleted file mode 100644
+index 2b4734d25ed4c70f5bd2b681025a25a5cdcd49a1..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 119
+zcmeAS@N?(olHy`uVBq!ia0vp^Vn8g#!3HEZm#uLCQg)s$jv*Ddk`o#l{)ZeZa9+v#
+zuV2dN^aEK_iP;DL|NmdUK+Vl;#;SxX4-%6Mawpx+n6_-^!NsA%wXbYenMW{$)-A8U
+T==<{s&?E*=S3j3^P6<r_x~eQN
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_primary_holo_dark.9.png b/core/res/res/drawable-xhdpi/scrubber_primary_holo_dark.9.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..2b4734d25ed4c70f5bd2b681025a25a5cdcd49a1
+GIT binary patch
+literal 119
+zcmeAS@N?(olHy`uVBq!ia0vp^Vn8g#!3HEZm#uLCQg)s$jv*Ddk`o#l{)ZeZa9+v#
+zuV2dN^aEK_iP;DL|NmdUK+Vl;#;SxX4-%6Mawpx+n6_-^!NsA%wXbYenMW{$)-A8U
+T==<{s&?E*=S3j3^P6<r_x~eQN
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_primary_holo_light.9.png b/core/res/res/drawable-xhdpi/scrubber_primary_holo_light.9.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..e114af1dad6fd1790e45c20e61ce5614f33d91ca
+GIT binary patch
+literal 123
+zcmeAS@N?(olHy`uVBq!ia0vp^Vn8g#!3HEZm#uLCQcj*Ojv*Ddk`o#l{)ZeZa9+v#
+zuV2dN^aEK_iP;AwB_;W;94TnNeCg7^VBvl#8yTKukwwyHFPWHEY{^>WKiB;$8#jZl
+XaA(8wkDQf2(-=Hm{an^LB{Ts5u@Wfw
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_secondary_holo.9.png b/core/res/res/drawable-xhdpi/scrubber_secondary_holo.9.png
+deleted file mode 100644
+index ff24905e6703f6ff3e2bf46ac88318a1c912c01e..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 120
+zcmeAS@N?(olHy`uVBq!ia0vp^Vn8g#!3HEZm#uLCQudxMjv*Ddk`o#l{)ZeZa9+v#
+zuV2dN^aEK_iP;DL|Nk$(OwG;g#`IYgR~{rL8RSm7oiT0M&V!3Xg==5gtTK;ac=Fhn
+UJ%Yb)7SJdLPgg&ebxsLQ0NL#;i~s-t
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_secondary_holo_dark.9.png b/core/res/res/drawable-xhdpi/scrubber_secondary_holo_dark.9.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..ff24905e6703f6ff3e2bf46ac88318a1c912c01e
+GIT binary patch
+literal 120
+zcmeAS@N?(olHy`uVBq!ia0vp^Vn8g#!3HEZm#uLCQudxMjv*Ddk`o#l{)ZeZa9+v#
+zuV2dN^aEK_iP;DL|Nk$(OwG;g#`IYgR~{rL8RSm7oiT0M&V!3Xg==5gtTK;ac=Fhn
+UJ%Yb)7SJdLPgg&ebxsLQ0NL#;i~s-t
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xhdpi/scrubber_secondary_holo_light.9.png b/core/res/res/drawable-xhdpi/scrubber_secondary_holo_light.9.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..f756b2cd6c1b6571bf9b78f32bb23464c0612a3b
+GIT binary patch
+literal 123
+zcmeAS@N?(olHy`uVBq!ia0vp^Vn8g#!3HEZm#uLCQcj*Ojv*Ddk`o#l{)ZeZa9+v#
+zuV2dN^aEK_iP;C!($WrHIa1Kv+tX9CveTVcj*soK&d%Pn%vsVlQKlD{pIcnj%*w!i
+W<y>a%?*1sCX$+pOelF{r5}E+-A}Wjk
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_control_disabled_holo.png b/core/res/res/drawable-xxhdpi/scrubber_control_disabled_holo.png
+deleted file mode 100644
+index 3a0ad320cb1bb53189f9b5d3a8860ba1983c9875..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 927
+zcmV;Q17Q4#P)<h;3K|Lk000e1NJLTq003YB003YJ1^@s6;+S_h000AKNkl<Zc-rlq
+z-A-CT6om&cEs~T_0!cwC)T(KTY0?XfN>XBI<nVXl8}zY^H+?8$ylTRGa53GZ8%p`9
+z#lY;DGixR5LV}z*--0>wcjhPsK@bE%5ClOG1VIo4L5@gkoh4Vvb#jCJjol*;*}a+9
+z8~k4LKUol5A9$L4z#yX;$S-xopJhHX4Z_Qzr^prZ#Rh;s=L<eo3gETg;csTg0{D4%
+z_}Dukf=}?tM*`rNRZ*raiBRC@$t?%K&)bwKA7}7M@`;1s=WWWEj2rw6HxY-P*pxLB
+z7x)Eo*CY57n=%)ChhHZ5J%m58DSO#h`1>A%pZC6R@b}1r7zJR?WzVNNzaJy`v(-_-
+zb@&-aI#=85v}Ig{pLDc?wT%v2(!~Hy0)Rj5thqS6FbvFjR6VGQ9s@WG5dOr6E{x|#
+z0S6F?&L_~pKL!k6_E*5uh*t>UkwHo#fC}JGU6Baj4B)3elUO=30QkQK>(Vv@_yFh&
+zKCl_UDS$8d)aH_s2*8*22@*B}$N~0BzqJuS6`)tTY9oNU@JU{iZ^(D#G5d~RyB026
+z-9`Wn!4v#J{-sxI#P5+RU&BTKEx~X8NI$QU;4h(NBY^KhCwHU&Uq7YBg=_>M)dam?
+zBY=_AYC0PMNG&-TuMxml>N;Q}fFS~q4M1w4?E|WyrvRiTVQz5|Ml;ljW~g*WY!rG&
+z%!Q$dTONLx=z(7gVkiQ0!IE>symbIzFL%~P0GN=GoRD$gLhPy=%9iM0H2`05&1L|v
+zuq<U^S;}kMYlBb?NmM^G0h9oK>XOur8CabA#6adojlgftkiSWTZ_wxj48J43;ZxvE
+z(wdSM_l!fmNzaX4ws?GK5Lmn4tt~OBK%W8%;Inc~Top9~fZud>gFn+9k9n)8<NW5Y
+zynMYEL-^*La>@r$L5nflGsv7vQTZeuE9%Dteo6T#{v~uhhTrw>o4?|kaOLSBTTaD6
+z+&Vh<2>!YC2^LF196NqpFg@I36=%^2zR`A`6Y!Glio<#01~2exI{?1z-NvjN9=>=_
+zz7zm|$;VD8Xxe1`y5(kTmyb~d@qf><nN7dHY^aKA^JkTHh>t7TKp?y1cjO}m+0=g?
+zS=C}s{%-Pnj`)9eK@fr<2!bF8f*=TjAP90rzX41#=ok;Hb58&O002ovPDHLkV1jfO
+Br<ni%
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_control_disabled_holo_dark.png b/core/res/res/drawable-xxhdpi/scrubber_control_disabled_holo_dark.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..3a0ad320cb1bb53189f9b5d3a8860ba1983c9875
+GIT binary patch
+literal 927
+zcmV;Q17Q4#P)<h;3K|Lk000e1NJLTq003YB003YJ1^@s6;+S_h000AKNkl<Zc-rlq
+z-A-CT6om&cEs~T_0!cwC)T(KTY0?XfN>XBI<nVXl8}zY^H+?8$ylTRGa53GZ8%p`9
+z#lY;DGixR5LV}z*--0>wcjhPsK@bE%5ClOG1VIo4L5@gkoh4Vvb#jCJjol*;*}a+9
+z8~k4LKUol5A9$L4z#yX;$S-xopJhHX4Z_Qzr^prZ#Rh;s=L<eo3gETg;csTg0{D4%
+z_}Dukf=}?tM*`rNRZ*raiBRC@$t?%K&)bwKA7}7M@`;1s=WWWEj2rw6HxY-P*pxLB
+z7x)Eo*CY57n=%)ChhHZ5J%m58DSO#h`1>A%pZC6R@b}1r7zJR?WzVNNzaJy`v(-_-
+zb@&-aI#=85v}Ig{pLDc?wT%v2(!~Hy0)Rj5thqS6FbvFjR6VGQ9s@WG5dOr6E{x|#
+z0S6F?&L_~pKL!k6_E*5uh*t>UkwHo#fC}JGU6Baj4B)3elUO=30QkQK>(Vv@_yFh&
+zKCl_UDS$8d)aH_s2*8*22@*B}$N~0BzqJuS6`)tTY9oNU@JU{iZ^(D#G5d~RyB026
+z-9`Wn!4v#J{-sxI#P5+RU&BTKEx~X8NI$QU;4h(NBY^KhCwHU&Uq7YBg=_>M)dam?
+zBY=_AYC0PMNG&-TuMxml>N;Q}fFS~q4M1w4?E|WyrvRiTVQz5|Ml;ljW~g*WY!rG&
+z%!Q$dTONLx=z(7gVkiQ0!IE>symbIzFL%~P0GN=GoRD$gLhPy=%9iM0H2`05&1L|v
+zuq<U^S;}kMYlBb?NmM^G0h9oK>XOur8CabA#6adojlgftkiSWTZ_wxj48J43;ZxvE
+z(wdSM_l!fmNzaX4ws?GK5Lmn4tt~OBK%W8%;Inc~Top9~fZud>gFn+9k9n)8<NW5Y
+zynMYEL-^*La>@r$L5nflGsv7vQTZeuE9%Dteo6T#{v~uhhTrw>o4?|kaOLSBTTaD6
+z+&Vh<2>!YC2^LF196NqpFg@I36=%^2zR`A`6Y!Glio<#01~2exI{?1z-NvjN9=>=_
+zz7zm|$;VD8Xxe1`y5(kTmyb~d@qf><nN7dHY^aKA^JkTHh>t7TKp?y1cjO}m+0=g?
+zS=C}s{%-Pnj`)9eK@fr<2!bF8f*=TjAP90rzX41#=ok;Hb58&O002ovPDHLkV1jfO
+Br<ni%
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_control_disabled_holo_light.png b/core/res/res/drawable-xxhdpi/scrubber_control_disabled_holo_light.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..3e68371c79b5de84c1dc8a235c70271778cc1967
+GIT binary patch
+literal 1068
+zcmV+{1k?M8P)<h;3K|Lk000e1NJLTq003YB003YJ1^@s6;+S_h000B?Nkl<Zc-rk<
+zT~8B16kU+`m1xvRBB&I#5^e1lbSY~SD8X1jc<4jl{aJ(;e-tr1ne>0~p!bAXvPh{^
+z+PO13=Oj0fO?P+Z+}S&K?%cf_MFc?*1VIo4K@bE%5Cq`}TCLXOMx#*>Db?%sSpIH8
+zn$70^>gwtt1plYU&2LIL2j`N(G12LC?#FTb7DNiUyD7=HkX>90*Tl8S@DTL-{X5la
+z^_39yc>;uw6x;*%!aX_KJDoX<Od+N_ZQ_SW*E|(-A#y)sh~HHp{)&l0ThOK;m`{@A
+znM{yd4iJAy&?dAk&)m<7xAMs~;{O)35pB&C^J{Bs58)!ZPJZTT*hHK2LjH5<(4H^k
+zXOysqwtG#!bYf9D@y$2#Q$gF&2VY12lCQ)MQN)s0<kxDom(uWqyeI&DL7%*_`97PS
+zQRc|`IRT!7Ba5r4E!tf6j%Hn4U`=De=HxoTheg(e7i(^X7eXOF6_>&mL6{zAO_4OF
+z7#jH*DXPcwbME#0(<@TlPY{>vUBKk)J_Xp)69s$?T>;=gWqT9*svQ020xmQr-wl#~
+zAsg0HM{*WyyLGV6YRZc|a&JibWicE3*1`_!B>hTwV%=IwN#MT!wQB+^sV((-{Rzn)
+zE|p5<sf~T!0?EEMK2)%wfRb`Ydm=|7Cn9G?PRy~MvI0srOi--Y$?qb+M1Ef*1M?e|
+z_JJE4Pr#Pq$RCU#KdXeEVu*U`3izU=fTJ6bpUMxdxR8wygq92Xa|{Ixw6f`JgrK!j
+zPR_<qz?s%OVB-lmqyiKbpqOZTN)vQ$g0wbajyVa_4b^u;9axABLSKlv5Q;c9;fIv?
+zQ*$i;p$P5;EAI{C^?#B*Tx^v_;D(ImhKvIfv6EtD0?sI4nWSG)z_K+3l*{G2OiQ_(
+zmQpMh?^(?aq8U;$Kberk0?EG!K`f}en8D=Si};VuiyDEyoT2}chIv7w8!-7@^@2|!
+zyQEfK&rvJmfM3#cqso?v4~4WYIB>2crg#G%0#d-o$U)3Bo6U9rY3S|9)dGK5j_2Gf
+z>N;Qi73u5QvcfqU`TOWw<O9S*n9ozqAXB<*KJp2OkK{oKrcl#D<RdU@e5{z5O|<fE
+z<PVz@d<@#5&EDAjn|Mbuk`j+beqw!t#Rh7%+KS`z0;(gfM0rNL-F{@_I|2Vwt~jVK
+zZXk(CI=$ln@jKoXW}RgCB97zNLcq4dB)g4!N1=Q-;3h7stTr3dbX#$4bB}p4K4O;*
+z1+#^)>Lg5*xdyJa80zOrZiOUC9*C)UArtp|5Q%7H`pGJ6iWo^hZG~uT6~DzfIF}3(
+m1VIo4K@bE%5ClOGuHX-Az@FE%ObCbo0000<MNUMnLSTZTG5CJ~
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_control_focused_holo.png b/core/res/res/drawable-xxhdpi/scrubber_control_focused_holo.png
+deleted file mode 100644
+index 267506f85c5f84980ff528f756049a1bb4da58b0..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 1674
+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
+UuagYHBme*a07*qoM6N<$g4>feQ~&?~
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_control_focused_holo_dark.png b/core/res/res/drawable-xxhdpi/scrubber_control_focused_holo_dark.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..267506f85c5f84980ff528f756049a1bb4da58b0
+GIT binary patch
+literal 1674
+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
+UuagYHBme*a07*qoM6N<$g4>feQ~&?~
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_control_focused_holo_light.png b/core/res/res/drawable-xxhdpi/scrubber_control_focused_holo_light.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..45e07025eb818b3f7514cf09b69f31e45c98b8bb
+GIT binary patch
+literal 1924
+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
+KMNUMnLSTZ`Fpzry
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_control_normal_holo.png b/core/res/res/drawable-xxhdpi/scrubber_control_normal_holo.png
+deleted file mode 100644
+index a310046b5a9a9f21d7c23264f1aa5c8681d38505..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 2315
+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
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_control_normal_holo_dark.png b/core/res/res/drawable-xxhdpi/scrubber_control_normal_holo_dark.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..a310046b5a9a9f21d7c23264f1aa5c8681d38505
+GIT binary patch
+literal 2315
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_control_normal_holo_light.png b/core/res/res/drawable-xxhdpi/scrubber_control_normal_holo_light.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..3a89c6527814d6592cad76e9580e690dac45731a
+GIT binary patch
+literal 2631
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_control_pressed_holo.png b/core/res/res/drawable-xxhdpi/scrubber_control_pressed_holo.png
+deleted file mode 100644
+index 58bd5cc78fda49d4f180174301b3f3911c658afa..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 1722
+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
+QSO5S307*qoM6N<$g6jD@3;+NC
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_control_pressed_holo_dark.png b/core/res/res/drawable-xxhdpi/scrubber_control_pressed_holo_dark.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..58bd5cc78fda49d4f180174301b3f3911c658afa
+GIT binary patch
+literal 1722
+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
+QSO5S307*qoM6N<$g6jD@3;+NC
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_control_pressed_holo_light.png b/core/res/res/drawable-xxhdpi/scrubber_control_pressed_holo_light.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..3573c8c1432e607a7bba6be8bff3dd5cb19aa12e
+GIT binary patch
+literal 1847
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_primary_holo.9.png b/core/res/res/drawable-xxhdpi/scrubber_primary_holo.9.png
+deleted file mode 100644
+index 8a273e537f103bb7e3250f3f2f89425395a97aed..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 123
+zcmeAS@N?(olHy`uVBq!ia0vp^3P7yJ!3HFkD$jfgq?|lm978H@y}hxKlfi+5+2MP<
+zRXoRjCmp?nx28%~n>|<7eGX${C}1)Gsx5W!Vgyn<m^W}UFvPeqFo+-9@NG%eYCUm-
+TejD3npcI3rtDnm{r-UW|Inf}}
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_primary_holo_dark.9.png b/core/res/res/drawable-xxhdpi/scrubber_primary_holo_dark.9.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..8a273e537f103bb7e3250f3f2f89425395a97aed
+GIT binary patch
+literal 123
+zcmeAS@N?(olHy`uVBq!ia0vp^3P7yJ!3HFkD$jfgq?|lm978H@y}hxKlfi+5+2MP<
+zRXoRjCmp?nx28%~n>|<7eGX${C}1)Gsx5W!Vgyn<m^W}UFvPeqFo+-9@NG%eYCUm-
+TejD3npcI3rtDnm{r-UW|Inf}}
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_primary_holo_light.9.png b/core/res/res/drawable-xxhdpi/scrubber_primary_holo_light.9.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..8ec80d13385069296ffd5fb8ad45610b5d9b9d0d
+GIT binary patch
+literal 127
+zcmeAS@N?(olHy`uVBq!ia0vp^3P7yJ!3HFkD$jfgq})7R978H@y}hxKlfi(4#bJ5r
+zf8H$|DXrTr9%io>ytpb{_*DM9Rg4T4j2a9K4HgS_s|x~kHCQw3W?(pw%EC~P$dl~9
+ZinXucul%1S4V6GS22WQ%mvv4FO#o^XC5`|9
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_secondary_holo.9.png b/core/res/res/drawable-xxhdpi/scrubber_secondary_holo.9.png
+deleted file mode 100644
+index 706f18f4ca52fb645fc14587677946766aad537b..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 127
+zcmeAS@N?(olHy`uVBq!ia0vp^3P7yJ!3HFkD$jfgq})7R978H@y}hxKlfi(4#X<bc
+zzsEIQ4q+AD!u!5S3C^vY8dUc=jFlmQH36vlRfEcMK_J~=%dne);Xo=2!-hnjZ2wi<
+Y{@2_(Kg{JY0m?CWy85}Sb4q9e0Co2zHUIzs
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_secondary_holo_dark.9.png b/core/res/res/drawable-xxhdpi/scrubber_secondary_holo_dark.9.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..706f18f4ca52fb645fc14587677946766aad537b
+GIT binary patch
+literal 127
+zcmeAS@N?(olHy`uVBq!ia0vp^3P7yJ!3HFkD$jfgq})7R978H@y}hxKlfi(4#X<bc
+zzsEIQ4q+AD!u!5S3C^vY8dUc=jFlmQH36vlRfEcMK_J~=%dne);Xo=2!-hnjZ2wi<
+Y{@2_(Kg{JY0m?CWy85}Sb4q9e0Co2zHUIzs
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xxhdpi/scrubber_secondary_holo_light.9.png b/core/res/res/drawable-xxhdpi/scrubber_secondary_holo_light.9.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..33a04e7a515e564fa5ee164a0f8249484f0773d8
+GIT binary patch
+literal 129
+zcmeAS@N?(olHy`uVBq!ia0vp^3P7yJ!3HFkD$jfgq&z%b978H@y}hxKlfi(4#UZ_@
+z|BZd0CR5}?UB4f<vR$^ky4vz-_VO$ShA;-8K?-~?-c9BJ>N_CU5X->uz=(<AhC$m#
+b^{cGv%S%_}DBe&9$}xDl`njxgN@xNA71<}j
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable/scrubber_control_selector_holo.xml b/core/res/res/drawable/scrubber_control_selector_holo.xml
+deleted file mode 100644
+index 1e6c668..0000000
+--- a/core/res/res/drawable/scrubber_control_selector_holo.xml
++++ /dev/null
+@@ -1,22 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<!-- Copyright (C) 2011 The Android Open Source Project
+-
+-     Licensed under the Apache License, Version 2.0 (the "License");
+-     you may not use this file except in compliance with the License.
+-     You may obtain a copy of the License at
+-
+-          http://www.apache.org/licenses/LICENSE-2.0
+-
+-     Unless required by applicable law or agreed to in writing, software
+-     distributed under the License is distributed on an "AS IS" BASIS,
+-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-     See the License for the specific language governing permissions and
+-     limitations under the License.
+--->
+-
+-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+-    <item android:state_enabled="false" android:drawable="@android:drawable/scrubber_control_disabled_holo" />
+-    <item android:state_pressed="true" android:drawable="@android:drawable/scrubber_control_pressed_holo" />
+-    <item android:state_selected="true" android:drawable="@android:drawable/scrubber_control_focused_holo" />
+-    <item android:drawable="@android:drawable/scrubber_control_normal_holo" />
+-</selector>
+diff --git a/core/res/res/drawable/scrubber_control_selector_holo_dark.xml b/core/res/res/drawable/scrubber_control_selector_holo_dark.xml
+new file mode 100644
+index 0000000..292447a
+--- /dev/null
++++ b/core/res/res/drawable/scrubber_control_selector_holo_dark.xml
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2011 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++
++<selector xmlns:android="http://schemas.android.com/apk/res/android">
++    <item android:state_enabled="false" android:drawable="@android:drawable/scrubber_control_disabled_holo_dark" />
++    <item android:state_pressed="true" android:drawable="@android:drawable/scrubber_control_pressed_holo_dark" />
++    <item android:state_selected="true" android:drawable="@android:drawable/scrubber_control_focused_holo_dark" />
++    <item android:drawable="@android:drawable/scrubber_control_normal_holo_dark" />
++</selector>
+diff --git a/core/res/res/drawable/scrubber_control_selector_holo_light.xml b/core/res/res/drawable/scrubber_control_selector_holo_light.xml
+new file mode 100644
+index 0000000..4ab59a1
+--- /dev/null
++++ b/core/res/res/drawable/scrubber_control_selector_holo_light.xml
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2011 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++
++<selector xmlns:android="http://schemas.android.com/apk/res/android">
++    <item android:state_enabled="false" android:drawable="@android:drawable/scrubber_control_disabled_holo_light" />
++    <item android:state_pressed="true" android:drawable="@android:drawable/scrubber_control_pressed_holo_light" />
++    <item android:state_selected="true" android:drawable="@android:drawable/scrubber_control_focused_holo_light" />
++    <item android:drawable="@android:drawable/scrubber_control_normal_holo_light" />
++</selector>
+diff --git a/core/res/res/drawable/scrubber_progress_horizontal_holo_dark.xml b/core/res/res/drawable/scrubber_progress_horizontal_holo_dark.xml
+index 97cd513..30d7571 100644
+--- a/core/res/res/drawable/scrubber_progress_horizontal_holo_dark.xml
++++ b/core/res/res/drawable/scrubber_progress_horizontal_holo_dark.xml
+@@ -19,10 +19,10 @@
+             android:drawable="@android:drawable/scrubber_track_holo_dark" />
+     <item android:id="@android:id/secondaryProgress">
+         <scale android:scaleWidth="100%"
+-               android:drawable="@android:drawable/scrubber_secondary_holo" />
++               android:drawable="@android:drawable/scrubber_secondary_holo_dark" />
+     </item>
+     <item android:id="@android:id/progress">
+         <scale android:scaleWidth="100%"
+-               android:drawable="@android:drawable/scrubber_primary_holo" />
++               android:drawable="@android:drawable/scrubber_primary_holo_dark" />
+     </item>
+ </layer-list>
+diff --git a/core/res/res/drawable/scrubber_progress_horizontal_holo_light.xml b/core/res/res/drawable/scrubber_progress_horizontal_holo_light.xml
+index 14e19f4..0769c6d 100644
+--- a/core/res/res/drawable/scrubber_progress_horizontal_holo_light.xml
++++ b/core/res/res/drawable/scrubber_progress_horizontal_holo_light.xml
+@@ -19,10 +19,10 @@
+             android:drawable="@android:drawable/scrubber_track_holo_light" />
+     <item android:id="@android:id/secondaryProgress">
+         <scale android:scaleWidth="100%"
+-               android:drawable="@android:drawable/scrubber_secondary_holo" />
++               android:drawable="@android:drawable/scrubber_secondary_holo_light" />
+     </item>
+     <item android:id="@android:id/progress">
+         <scale android:scaleWidth="100%"
+-               android:drawable="@android:drawable/scrubber_primary_holo" />
++               android:drawable="@android:drawable/scrubber_primary_holo_light" />
+     </item>
+ </layer-list>
+diff --git a/core/res/res/values/styles.xml b/core/res/res/values/styles.xml
+index cb2fd6d..13f730b 100644
+--- a/core/res/res/values/styles.xml
++++ b/core/res/res/values/styles.xml
+@@ -1765,7 +1765,7 @@ please see styles_device_defaults.xml.
+         <item name="android:indeterminateDrawable">@android:drawable/scrubber_progress_horizontal_holo_dark</item>
+         <item name="android:minHeight">13dip</item>
+         <item name="android:maxHeight">13dip</item>
+-        <item name="android:thumb">@android:drawable/scrubber_control_selector_holo</item>
++        <item name="android:thumb">@android:drawable/scrubber_control_selector_holo_dark</item>
+         <item name="android:thumbOffset">16dip</item>
+         <item name="android:focusable">true</item>
+         <item name="android:paddingStart">16dip</item>
+@@ -2171,6 +2171,7 @@ please see styles_device_defaults.xml.
+     <style name="Widget.Holo.Light.SeekBar" parent="Widget.Holo.SeekBar">
+         <item name="android:progressDrawable">@android:drawable/scrubber_progress_horizontal_holo_light</item>
+         <item name="android:indeterminateDrawable">@android:drawable/scrubber_progress_horizontal_holo_light</item>
++        <item name="android:thumb">@android:drawable/scrubber_control_selector_holo_light</item>
+     </style>
+ 
+     <style name="Widget.Holo.Light.RatingBar" parent="Widget.RatingBar">
+diff --git a/core/res/res/values/symbols.xml b/core/res/res/values/symbols.xml
+index 1f6b046..2dd5b36 100644
+--- a/core/res/res/values/symbols.xml
++++ b/core/res/res/values/symbols.xml
+@@ -1630,8 +1630,8 @@
+   <java-symbol type="dimen" name="status_bar_icon_size" />
+   <java-symbol type="dimen" name="system_bar_icon_size" />
+   <java-symbol type="drawable" name="list_selector_pressed_holo_dark" />
+-  <java-symbol type="drawable" name="scrubber_control_disabled_holo" />
+-  <java-symbol type="drawable" name="scrubber_control_selector_holo" />
++  <java-symbol type="drawable" name="scrubber_control_disabled_holo_dark" />
++  <java-symbol type="drawable" name="scrubber_control_selector_holo_dark" />
+   <java-symbol type="drawable" name="scrubber_progress_horizontal_holo_dark" />
+   <java-symbol type="drawable" name="usb_android" />
+   <java-symbol type="drawable" name="usb_android_connected" />
+diff --git a/packages/SystemUI/res/drawable/status_bar_toggle_button.xml b/packages/SystemUI/res/drawable/status_bar_toggle_button.xml
+index e17c62f..c1042f6 100644
+--- a/packages/SystemUI/res/drawable/status_bar_toggle_button.xml
++++ b/packages/SystemUI/res/drawable/status_bar_toggle_button.xml
+@@ -16,7 +16,7 @@
+ 
+ <selector xmlns:android="http://schemas.android.com/apk/res/android">
+     <item android:state_checked="true"
+-         android:drawable="@*android:drawable/scrubber_primary_holo" />
++         android:drawable="@*android:drawable/scrubber_primary_holo_dark" />
+     <item
+          android:drawable="@*android:drawable/scrubber_track_holo_dark" />
+ </selector>
+diff --git a/packages/SystemUI/src/com/android/systemui/settings/ToggleSlider.java b/packages/SystemUI/src/com/android/systemui/settings/ToggleSlider.java
+index d584043..235c266 100644
+--- a/packages/SystemUI/src/com/android/systemui/settings/ToggleSlider.java
++++ b/packages/SystemUI/src/com/android/systemui/settings/ToggleSlider.java
+@@ -88,12 +88,12 @@ public void onCheckedChanged(CompoundButton toggle, boolean checked) {
+         final Resources res = getContext().getResources();
+         if (checked) {
+             thumb = res.getDrawable(
+-                    com.android.internal.R.drawable.scrubber_control_disabled_holo);
++                    com.android.internal.R.drawable.scrubber_control_disabled_holo_dark);
+             slider = res.getDrawable(
+                     R.drawable.status_bar_settings_slider_disabled);
+         } else {
+             thumb = res.getDrawable(
+-                    com.android.internal.R.drawable.scrubber_control_selector_holo);
++                    com.android.internal.R.drawable.scrubber_control_selector_holo_dark);
+             slider = res.getDrawable(
+                     com.android.internal.R.drawable.scrubber_progress_horizontal_holo_dark);
+         }
+-- 
+1.8.5-rc3
+

@@ -1,0 +1,58 @@
+From 14083d3ab6721d4d55ac113c8cf4a1067445ef99 Mon Sep 17 00:00:00 2001
+From: DHOMD <DHO@dho.im>
+Date: Sun, 11 May 2014 18:22:46 -0400
+Subject: [PATCH] Mira Cast Part 3/7
+
+This series of patches is from s107ken's xda post here:
+http://forum.xda-developers.com/galaxy-nexus/development/rom-maguro-meets-kitkat-miracast-t2540694/post52562917
+The Tuna community, states it is working as intented
+
+Mira4u is the work of kensuke
+https://github.com/kensuke/How-to-Miracast-on-AOSP
+
+Parts:
+Build 1/7 (This will likely be abandoned in favor of building from device and/or vendor)
+Device/samy/tuna 2/7
+external/wpa 3/7
+fw_av 4/7
+fw_base  5/7
+fw_native 6/7
+packages/apps/mira4u 7/7
+
+WTF is Miracast?... basically, the open source chromecast
+http://en.wikipedia.org/wiki/Miracast
+
+Please note,... the way this was patches has a great possibly to step on other commits, I will attempt to ensure this does not happen
+
+Change-Id: I0189f4a678baf3104a80b166128ab2d78a7ff94d
+---
+ wpa_supplicant/p2p_supplicant.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/wpa_supplicant/p2p_supplicant.c b/wpa_supplicant/p2p_supplicant.c
+index 88f71bd..3c72a7f 100644
+--- a/wpa_supplicant/p2p_supplicant.c
++++ b/wpa_supplicant/p2p_supplicant.c
+@@ -3292,11 +3292,17 @@ int wpas_p2p_init(struct wpa_global *global, struct wpa_supplicant *wpa_s)
+ 	unsigned int r;
+ 	int i;
+ 
++wpa_printf(MSG_ERROR, "wpas_p2p_init() wpa_s->drv_flags[0x%x] & WPA_DRIVER_FLAGS_P2P_CAPABLE[0x%x] = [%d]",
++wpa_s->drv_flags, WPA_DRIVER_FLAGS_P2P_CAPABLE, (wpa_s->drv_flags & WPA_DRIVER_FLAGS_P2P_CAPABLE));
++
+ 	if (wpa_s->conf->p2p_disabled)
+ 		return 0;
+ 
+-	if (!(wpa_s->drv_flags & WPA_DRIVER_FLAGS_P2P_CAPABLE))
+-		return 0;
++	if (!(wpa_s->drv_flags & WPA_DRIVER_FLAGS_P2P_CAPABLE)) {
++		//return 0;
++		wpa_printf(MSG_ERROR, "wpas_p2p_init() Driver Flags Doesn't Have P2P Capability. wpa_s->drv_flags[0x%x] & WPA_DRIVER_FLAGS_P2P_CAPABLE[0x%x]", wpa_s->drv_flags, WPA_DRIVER_FLAGS_P2P_CAPABLE);
++		wpa_printf(MSG_ERROR, "wpas_p2p_init() SKIP!! p2p capability check");
++	}
+ 
+ 	if (global->p2p)
+ 		return 0;
+-- 
+1.9.3
+

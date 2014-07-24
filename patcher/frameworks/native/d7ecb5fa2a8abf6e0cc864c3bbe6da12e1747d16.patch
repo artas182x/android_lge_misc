@@ -1,0 +1,112 @@
+From d7ecb5fa2a8abf6e0cc864c3bbe6da12e1747d16 Mon Sep 17 00:00:00 2001
+From: DHOMD <DHO@dho.im>
+Date: Sun, 11 May 2014 18:20:06 -0400
+Subject: [PATCH] Mira Cast Part 6/7
+
+This series of patches is from s107ken's xda post here:
+http://forum.xda-developers.com/galaxy-nexus/development/rom-maguro-meets-kitkat-miracast-t2540694/post52562917
+The Tuna community, states it is working as intented
+
+Mira4u is the work of kensuke
+https://github.com/kensuke/How-to-Miracast-on-AOSP
+
+Parts:
+Build 1/7 (This will likely be abandoned in favor of building from device and/or vendor)
+Device/samy/tuna 2/7
+external/wpa 3/7
+fw_av 4/7
+fw_base  5/7
+fw_native 6/7
+packages/apps/mira4u 7/7
+
+WTF is Miracast?... basically, the open source chromecast
+http://en.wikipedia.org/wiki/Miracast
+
+Please note,... the way this was patches has a great possibly to step on other commits, I will attempt to ensure this does not happen
+
+Change-Id: I901d3227e0f7d4251c1c6cffa2cfb53fa9e1c2da
+---
+ include/gui/GLConsumer.h |  4 ++++
+ libs/gui/GLConsumer.cpp  | 40 +++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 43 insertions(+), 1 deletion(-)
+
+diff --git a/include/gui/GLConsumer.h b/include/gui/GLConsumer.h
+index f08189f..4142f05 100644
+--- a/include/gui/GLConsumer.h
++++ b/include/gui/GLConsumer.h
+@@ -451,6 +451,10 @@ class GLConsumer : public ConsumerBase {
+     // mReleasedTexImageBuffer is a dummy buffer used when in single buffer
+     // mode and releaseTexImage() has been called
+     static sp<GraphicBuffer> sReleasedTexImageBuffer;
++
++    // for Miracast Sink, screen rotation flag
++    bool mSinkRotateInitialized;
++    bool mSinkRotate;
+ };
+ 
+ // ----------------------------------------------------------------------------
+diff --git a/libs/gui/GLConsumer.cpp b/libs/gui/GLConsumer.cpp
+index de83a20..c00895a 100644
+--- a/libs/gui/GLConsumer.cpp
++++ b/libs/gui/GLConsumer.cpp
+@@ -144,6 +144,9 @@ GLConsumer::GLConsumer(const sp<IGraphicBufferConsumer>& bq, uint32_t tex,
+ #ifdef QCOM_BSP
+     mCurrentDirtyRect.clear();
+ #endif
++
++    mSinkRotateInitialized = false;
++    mSinkRotate = true;
+ }
+ 
+ status_t GLConsumer::setDefaultMaxBufferCount(int bufferCount) {
+@@ -418,11 +421,46 @@ status_t GLConsumer::updateAndReleaseLocked(const BufferQueue::BufferItem& item)
+         }
+     }
+ 
++    // for Miracast Sink, screen rotation
++    BufferQueue::BufferItem newrot;
++    newrot.mTransform = item.mTransform;
++    if (mName == "A Sink Surface") {
++        if(!mSinkRotateInitialized) {
++            mSinkRotateInitialized = true;
++
++            // self parse
++            FILE* fp = fopen("/data/data/com.example.mira4u/shared_prefs/prefs.xml", "r");
++            if (fp == NULL) {
++                ALOGE("updateAndReleaseLocked() fopen error[%d] mSinkRotate[%d]", errno, mSinkRotate);
++            } else {
++                char line[80];
++                while( fgets(line , sizeof(line) , fp) != NULL ) {
++                    char lin[80];
++                    memset(lin, 0, 80);
++                    ALOGD("[%s]", strncpy(lin, line, strlen(line)-1)); // delete CR
++                    int val = -1;
++                    int ret = sscanf(line, "    <string name=\"persist.sys.wfd.nosinkrotate\">%d</string>", &val);
++                    if (ret == 1 && val == 1) {
++                        mSinkRotate = false;
++                        break;
++                    }
++                }
++                fclose(fp);
++            }
++        }
++
++        if (mSinkRotate) {
++            newrot.mTransform = item.mTransform | 0x04; // /system/core/include/system/graphics.h HAL_TRANSFORM_ROT_90    = 0x04,
++            //ST_LOGW("updateAndReleaseLocked() Force Transform::ROT_90 [%d, %d]", mSlots[buf].mGraphicBuffer->getWidth(), mSlots[buf].mGraphicBuffer->getHeight());
++        }
++    }
++
+     // Update the GLConsumer state.
+     mCurrentTexture = buf;
+     mCurrentTextureBuf = mSlots[buf].mGraphicBuffer;
+     mCurrentCrop = item.mCrop;
+-    mCurrentTransform = item.mTransform;
++    //mCurrentTransform = item.mTransform;
++    mCurrentTransform = newrot.mTransform;
+     mCurrentScalingMode = item.mScalingMode;
+     mCurrentTimestamp = item.mTimestamp;
+     mCurrentFence = item.mFence;
+-- 
+1.9.3
+
