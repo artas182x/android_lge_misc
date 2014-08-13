@@ -1,0 +1,48 @@
+From c29058c960940e054c259fabd7f6768fce961a71 Mon Sep 17 00:00:00 2001
+From: artas182x <artas182x@gmail.com>
+Date: Thu, 7 Aug 2014 18:05:38 +0200
+Subject: [PATCH] Try to fix server_port error
+
+Change-Id: I3482312e481603e5963b2c18ffa656b8ca0bb1c4
+---
+ media/libstagefright/wifi-display/sink/WifiDisplaySink.cpp | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/media/libstagefright/wifi-display/sink/WifiDisplaySink.cpp b/media/libstagefright/wifi-display/sink/WifiDisplaySink.cpp
+index 5e22250..c03a5a7 100644
+--- a/media/libstagefright/wifi-display/sink/WifiDisplaySink.cpp
++++ b/media/libstagefright/wifi-display/sink/WifiDisplaySink.cpp
+@@ -560,18 +560,29 @@ status_t WifiDisplaySink::configureTransport(const sp<ParsedMessage> &msg) {
+     if (!ParsedMessage::GetAttribute(
+                 transport.c_str(), "server_port", &serverPortStr)) {
+         ALOGE("Missing 'server_port' in Transport field.");
++		 if (!ParsedMessage::GetAttribute(
++                    transport.c_str(), "client_port", &serverPortStr)) {
++                ALOGE("Missing 'client_port' in Transport field.");
+         return ERROR_MALFORMED;
+     }
++}
+ 
+     int rtpPort, rtcpPort;
+     if (sscanf(serverPortStr.c_str(), "%d-%d", &rtpPort, &rtcpPort) != 2
+             || rtpPort <= 0 || rtpPort > 65535
+             || rtcpPort <=0 || rtcpPort > 65535
+-            || rtcpPort != rtpPort + 1) {
++           // || rtcpPort != rtpPort + 1) {
++  ){
++               ALOGE("Invalid server_port description '%s'.", serverPortStr.c_str());
++               //try another format
++               if (sscanf(serverPortStr.c_str(), "%d", &rtpPort) != 1
++                         ||rtpPort <= 0 || rtpPort > 65535)  
+         ALOGE("Invalid server_port description '%s'.",
+                 serverPortStr.c_str());
+ 
+         return ERROR_MALFORMED;
++
++  else rtcpPort = rtpPort; 
+     }
+ 
+     if (rtpPort & 1) {
+-- 
+1.9.1
+

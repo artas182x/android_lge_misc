@@ -1,0 +1,44 @@
+From 71e71e1b0bfac2b9ca1f838715497bd1a37cf7ab Mon Sep 17 00:00:00 2001
+From: artas182x <artas182x@gmail.com>
+Date: Fri, 8 Aug 2014 16:34:02 +0200
+Subject: [PATCH] Fix wifi display sink connection
+
+Change-Id: I9022a42809db8686b427fc51c038efd403880055
+---
+ media/libstagefright/foundation/ANetworkSession.cpp        | 2 +-
+ media/libstagefright/wifi-display/sink/WifiDisplaySink.cpp | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/media/libstagefright/foundation/ANetworkSession.cpp b/media/libstagefright/foundation/ANetworkSession.cpp
+index af4bbcc..37a2f82 100644
+--- a/media/libstagefright/foundation/ANetworkSession.cpp
++++ b/media/libstagefright/foundation/ANetworkSession.cpp
+@@ -50,7 +50,7 @@ static uint64_t U64_AT(const uint8_t *ptr) {
+ }
+ 
+ static const size_t kMaxUDPSize = 1500;
+-static const int32_t kMaxUDPRetries = 200;
++static const int32_t kMaxUDPRetries = 10000;
+ 
+ struct ANetworkSession::NetworkThread : public Thread {
+     NetworkThread(ANetworkSession *session);
+diff --git a/media/libstagefright/wifi-display/sink/WifiDisplaySink.cpp b/media/libstagefright/wifi-display/sink/WifiDisplaySink.cpp
+index c03a5a7..b6763ee 100644
+--- a/media/libstagefright/wifi-display/sink/WifiDisplaySink.cpp
++++ b/media/libstagefright/wifi-display/sink/WifiDisplaySink.cpp
+@@ -577,10 +577,12 @@ status_t WifiDisplaySink::configureTransport(const sp<ParsedMessage> &msg) {
+                //try another format
+                if (sscanf(serverPortStr.c_str(), "%d", &rtpPort) != 1
+                          ||rtpPort <= 0 || rtpPort > 65535)  
++{
+         ALOGE("Invalid server_port description '%s'.",
+                 serverPortStr.c_str());
+ 
+         return ERROR_MALFORMED;
++}
+ 
+   else rtcpPort = rtpPort; 
+     }
+-- 
+1.9.1
+

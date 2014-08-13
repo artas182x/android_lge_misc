@@ -1,0 +1,26 @@
+From 892b2e55b9f11fec99d6516a98aa9fbfb8bf934b Mon Sep 17 00:00:00 2001
+From: artas182x <artas182x@gmail.com>
+Date: Sun, 3 Aug 2014 13:53:54 +0200
+Subject: [PATCH] Fix charger mode. Screen was still turned on
+
+Change-Id: I0e6bed45e4a3fd50efa1957d11038aa59ecdd62c
+---
+ charger/charger.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/charger/charger.c b/charger/charger.c
+index 761d75c..d4a4447 100644
+--- a/charger/charger.c
++++ b/charger/charger.c
+@@ -71,7 +71,7 @@
+ 
+ #define BATTERY_FULL_THRESH     95
+ 
+-#define BACKLIGHT_TOGGLE_PATH "/sys/class/leds/lcd-backlight/brightness"
++#define BACKLIGHT_TOGGLE_PATH "/sys/devices/platform/omap/omap_i2c.2/i2c-2/2-0036/brightness"
+ 
+ #define LAST_KMSG_PATH          "/proc/last_kmsg"
+ #define LAST_KMSG_MAX_SZ        (32 * 1024)
+-- 
+1.9.1
+

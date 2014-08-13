@@ -1,0 +1,26 @@
+From 78ebbc4404de260862dca5f0454bffccee650e0d Mon Sep 17 00:00:00 2001
+From: JustArchi <JustArchi@JustArchi.net>
+Date: Sat, 21 Jun 2014 15:34:08 +0200
+Subject: [PATCH] Fix exFAT being broken with O2+
+
+---
+ lib/Android.mk | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/lib/Android.mk b/lib/Android.mk
+index ba06023..d2262b8 100755
+--- a/lib/Android.mk
++++ b/lib/Android.mk
+@@ -43,7 +43,8 @@ LOCAL_SHARED_LIBRARIES := \
+ LOCAL_CFLAGS := \
+ 	-D_FILE_OFFSET_BITS=64 \
+ 	-DFUSE_USE_VERSION=26 \
+-    -fno-strict-aliasing
++	-fno-strict-aliasing \
++	-Os
+ 
+ LOCAL_MODULE := libfuse
+ LOCAL_MODULE_TAGS := optional
+-- 
+2.0.3
+

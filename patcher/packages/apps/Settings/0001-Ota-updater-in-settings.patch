@@ -1,0 +1,28 @@
+From 6bceffb029b89a91cd232fab1475ec1096fb5831 Mon Sep 17 00:00:00 2001
+From: artas182x <artas182x@gmail.com>
+Date: Wed, 6 Aug 2014 20:25:08 +0200
+Subject: [PATCH] Ota updater in settings
+
+Change-Id: I74994f129a04494310dbabd6a27d85a4485671d7
+---
+ res/xml/device_info_settings.xml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/res/xml/device_info_settings.xml b/res/xml/device_info_settings.xml
+index 22c29de..72c9bc6 100644
+--- a/res/xml/device_info_settings.xml
++++ b/res/xml/device_info_settings.xml
+@@ -47,8 +47,8 @@
+                 android:title="@string/cmupdate_settings_title" 
+                 android:summary="@string/cmupdate_settings_summary">
+             <intent android:action="android.intent.action.MAIN"
+-                    android:targetPackage="com.cyanogenmod.updater"
+-                    android:targetClass="com.cyanogenmod.updater.UpdatesSettings" />
++                     android:targetPackage="com.otaupdater"
++                    android:targetClass="com.otaupdater.OTAUpdaterActivity" />
+         </PreferenceScreen>
+ 
+         <!-- Change Log -->
+-- 
+1.9.1
+
