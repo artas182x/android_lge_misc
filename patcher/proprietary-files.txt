@@ -1,8 +1,9 @@
-frameworks/base
-frameworks/av
-frameworks/native
+#frameworks/base
+#frameworks/av
+#frameworks/native
 build
 external/wpa_supplicant_8
 external/fuse
 packages/apps/Settings
 system/core
+vendor/cm

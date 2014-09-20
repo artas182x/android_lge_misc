@@ -1,6 +1,6 @@
 #!/bin/sh
 
-BASEDIR=/media/artur/c35c78f5-564f-4d35-835f-dbfa88cb76324/cm11
+BASEDIR=/media/artur/c35c78f5-564f-4d35-835f-dbfa88cb7632/cm11
 VENDOR=lge
 DEVICE=p760
 
