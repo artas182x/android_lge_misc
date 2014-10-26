@@ -1,0 +1,39 @@
+From 1b12a9f2a81d61b736989f489a6ab7408ee1bb34 Mon Sep 17 00:00:00 2001
+From: artas182x <artas182x@gmail.com>
+Date: Sat, 4 Oct 2014 21:43:14 +0200
+Subject: [PATCH] Delete unused cm apps
+
+Change-Id: I9e76722214e2f2621f7c8401e8b222367861c1f9
+---
+ config/common.mk | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/config/common.mk b/config/common.mk
+index d32640c..c8272e9 100644
+--- a/config/common.mk
++++ b/config/common.mk
+@@ -144,14 +144,10 @@ PRODUCT_PACKAGES += \
+ PRODUCT_PACKAGES += \
+     Launcher3 \
+     Trebuchet \
+-    DSPManager \
+-    libcyanogen-dsp \
+-    audio_effects.conf \
+     CMWallpapers \
+     Apollo \
+     CMFileManager \
+     LockClock \
+-    CMUpdater \
+     CMAccount \
+     CMHome
+ 
+@@ -341,4 +337,4 @@ PRODUCT_PROPERTY_OVERRIDES += \
+ 
+ -include vendor/cyngn/product.mk
+ 
+-$(call inherit-product-if-exists, vendor/extra/product.mk)
++$(call inherit-product-if-exists, vendor/extra/product.mk)
+\ No newline at end of file
+-- 
+1.9.1
+

@@ -1,4 +1,4 @@
-From 1125f60a15194e08fdf18feacefb47696647e05b Mon Sep 17 00:00:00 2001
+From d90db69f54fb660cbd5f9ff3e7504955b955ab6d Mon Sep 17 00:00:00 2001
 From: JustArchi <JustArchi@JustArchi.net>
 Date: Sat, 31 May 2014 04:27:05 +0200
 Subject: [PATCH] JustArchi's ArchiDroid Optimizations V3
@@ -68,12 +68,14 @@ For more information, support, troubleshooting and discussion about my optimizat
 
 Conflicts:
 	core/combo/arch/arm/armv7-a-neon.mk
+
+Signed-off-by: artas182x <artas182x@gmail.com>
 ---
  core/combo/TARGET_linux-arm.mk      | 50 ++++++++++++++++---------------------
- core/combo/arch/arm/armv7-a-neon.mk |  4 +--
+ core/combo/arch/arm/armv7-a-neon.mk |  6 ++---
  core/combo/select.mk                | 19 +++++++++++---
  core/llvm_config.mk                 |  2 +-
- 4 files changed, 40 insertions(+), 35 deletions(-)
+ 4 files changed, 41 insertions(+), 36 deletions(-)
 
 diff --git a/core/combo/TARGET_linux-arm.mk b/core/combo/TARGET_linux-arm.mk
 index 3497662..42a09d0 100644
@@ -166,24 +168,27 @@ index 3497662..42a09d0 100644
  libm_root := bionic/libm
  libstdc++_root := bionic/libstdc++
 diff --git a/core/combo/arch/arm/armv7-a-neon.mk b/core/combo/arch/arm/armv7-a-neon.mk
-index 398d0e8..574395f 100644
+index f63f2c6..7ef5450 100644
 --- a/core/combo/arch/arm/armv7-a-neon.mk
 +++ b/core/combo/arch/arm/armv7-a-neon.mk
 @@ -14,6 +14,7 @@ ifeq ($(strip $(TARGET_CPU_VARIANT)),cortex-a9)
  else
  ifeq ($(strip $(TARGET_CPU_VARIANT)),cortex-a8)
- 	arch_variant_cflags := -mcpu=cortex-a8
-+	arch_variant_ldflags := -Wl,--fix-cortex-a8
+ 	arch_variant_cflags := -mcpu=cortex-a8 -mfpu=neon
++    arch_variant_ldflags := -Wl,--fix-cortex-a8
  else
  ifeq ($(strip $(TARGET_CPU_VARIANT)),cortex-a7)
- 	arch_variant_cflags := -mcpu=cortex-a7
-@@ -39,6 +40,3 @@ endif
+ 	arch_variant_cflags := -mcpu=cortex-a7 -mfpu=neon-vfpv4
+@@ -33,7 +34,4 @@ endif
+ endif
+ 
  arch_variant_cflags += \
-     -mfloat-abi=softfp \
-     -mfpu=neon
+-    -mfloat-abi=softfp
 -
 -arch_variant_ldflags := \
 -	-Wl,--fix-cortex-a8
++    -mfloat-abi=softfp
+\ No newline at end of file
 diff --git a/core/combo/select.mk b/core/combo/select.mk
 index d5f7379..40fd779 100644
 --- a/core/combo/select.mk
@@ -234,5 +239,5 @@ index 18e689e..f5bb9aa 100644
  CLANG_CONFIG_UNKNOWN_CFLAGS := \
    -funswitch-loops
 -- 
-1.9.3
+1.9.1
 
